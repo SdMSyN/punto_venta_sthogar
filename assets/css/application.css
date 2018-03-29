@@ -1,0 +1,149 @@
+@import url("bootstrap.min.css");
+@import url("font-awesome.min.css");
+@import url(http://fonts.googleapis.com/css?family=Playball);
+body{
+  background-image: url('../img/web.jpg');
+  height: 100%;
+  width: 100%;
+  padding-top: 85px;
+}
+
+/* Carrusel */
+.carousel-inner{
+	height: 500px;
+}
+
+.carousel-inner > .item > a img {
+    margin: 0 auto;
+	cursor: pointer;
+	max-height: 400px;
+}
+
+.carousel-caption {
+    background: rgba(0, 0, 0, 0.5);
+	bottom: -100px;
+}
+
+.carousel-caption h3{
+	padding: 0px;
+	margin: 0px;
+}
+
+.carousel-caption p{
+	padding: 0px;
+	margin: 0px;
+}
+
+.carousel-indicators {
+    bottom: -10px;
+    left: 0;
+    margin-left: 0;
+    width: 100%;
+}
+
+/* Contacto */
+.contacto{
+	background: #dc143c;
+	position: fixed;
+	width: 130px;
+	height: 50px;
+	bottom: 0px; right: 0px;
+	padding: 10px;
+	border-radius: 15px 15px 0px 0px;
+}
+
+.contacto a{
+	color: #FFF;
+	font-weight: bold;
+}
+
+.contacto i{
+	color: #FFF;
+	font-size: 12px;
+}
+/* Pie de página */
+.footer{
+  background-color: #596cb6;
+  color: whitesmoke;
+  position: relative;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 1rem;
+  text-align: center;
+}
+
+.footer a{
+	color: #f5f5f5;
+}
+
+/* affix responsive */
+@media (max-width: 767px) {
+	.affix{
+		position: static;
+	}
+}
+@media (max-width: 480px) {
+	.affix{
+		position: static;
+	}
+}
+
+.error{
+  font-size: 1.5rem;
+  padding: .5rem;
+  padding-left: 2rem;
+  color: #4cae4c;
+}
+.container{
+  min-height: 83%;
+}
+
+/* Navbar */
+.navbar{
+	/*height: 85px;*/
+	background-color: #000;
+}
+
+.navbar-header img{
+	width: 200px;
+	padding: 0px;
+}
+
+.navbar .navbar-collapse{
+	padding-top: 30px;
+}
+
+.navbar-collapse ul {
+	font-weight: bold;
+} 
+
+.inverse-dropdown {
+	/* background-color: #222; */
+	background-color: #000; 
+	border-color: #080808;
+}
+
+.inverse-dropdown li a{
+	color: rgba(157, 157, 157, 0.75);
+	font-weight: bold;
+}
+
+.inverse-dropdown li a:hover{
+	color: #FFF;
+	background-color: #000;
+	font-weight: bold;
+}
+
+/*Contenido Descripción Galeria*/
+.descrip h3{
+	color: #FFF;
+}
+
+.textContent h1, .textContent li, .textContent p{
+	color: #fff;
+}
+
+.container .table td  p, .container .table caption, .container .table li{
+	color: #FFF;
+}
