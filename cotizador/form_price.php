@@ -12,7 +12,13 @@ include ('menu.php');
 //$idUser = $_SESSION['userId'];
 if (isset($_SESSION['sessU'])) {//si se ha iniciado sesión
     $idUser = $_SESSION['userId'];
+    $idPerfil = $_SESSION['perfil'];
     $cadMess = '';
+    //Obtenemos ID tienda
+    if($idPerfil == 3)
+        $idStore = $_SESSION['storeId'];
+    else
+        $idStore = 0;
     //obtener mensajes del integrador
     $sqlGetMess = "SELECT * FROM $tUsersMess WHERE usuario_id='$idUser' ORDER BY creado DESC LIMIT 1";
     $resGetMess = $con->query($sqlGetMess);
@@ -24,6 +30,8 @@ if (isset($_SESSION['sessU'])) {//si se ha iniciado sesión
     }
 } else {//si no inicio o es invitado
     $idUser = 0;
+    $idPerfil = 0;
+    $idStore = 0;
 }
 include('config/variables.php');
 
@@ -46,7 +54,7 @@ if ($resGetCategories->num_rows > 0) {
         <div class="ticket text-center">
             <form id="formTicket" method="POST" action="" >
                 <!-- ID de tienda -->
-                <input type="hidden" name="idStore" value="12">
+                <input type="hidden" name="idStore" value="<?= $idStore; ?>">
                 <input type="hidden" name="idUser" value="<?= $idUser; ?>"> 
                 <div class="cobrar row">
                     <div class="form-group col-xs-3">
@@ -54,7 +62,7 @@ if ($resGetCategories->num_rows > 0) {
                         <input type="text" id="inputTotal" name="inputTotal" readonly step=0.01 class="form-control col-xs-12" >
                     </div>
                     <?php
-                    if (isset($_SESSION['sessU']) && $_SESSION['perfil'] == 3) {
+                    if (isset($_SESSION['sessU']) && $_SESSION['perfil'] == 3 ) {
                         ?>
                         <div class="form-group col-xs-2">
                             <label>Recibido:</label></br>
@@ -75,7 +83,44 @@ if ($resGetCategories->num_rows > 0) {
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModalAdd"><i class="fa fa-money" style="font-size: 2.2rem;"></i></button>
                     </div>
                 </div>
-
+                <div class="cobrar row">
+                <?php if (isset($_SESSION['sessU']) && ($_SESSION['perfil'] == 3 || $_SESSION['perfil'] == 2) ) { ?>
+                        <div class="form-group col-xs-3 rfcCliente">
+                            <label>RFC Cliente</label>
+                            <input type="text" id="inputRFCCliente" name="inputRFCCliente" class="form-control" max="13">
+                        </div>
+                        <div class="form-group col-xs-2 descuento">
+                            <label>Descuento %</label>
+                            <input type="hidden" id="inputIdClient" name="inputIdClient" >
+                            <input type="number" id="inputDesc" name="inputDesc" class="form-control calcDesc" min="0" max="100" placeholder="%" value="0">
+                        </div>
+                        <div class="form-group col-xs-2">
+                            <label>Total con descuento</label>
+                            <input type="text" id="inputTotal2" name="inputTotal2" class="form-control" step=0.01 readonly>
+                        </div>
+                    <?php }//end if vendedor  
+                    if (isset($_SESSION['sessU']) && $_SESSION['perfil'] == 3 ) {
+                    ?>
+                        <div class="form-group col-xs-2">
+                            <label>Cantidad descontada</label>
+                            <input type="text" id="inputCantDesc" name="inputCantDesc" class="form-control" step=0.01 readonly>
+                        </div>
+                        <div class="form-group col-xs-2">
+                            <label>Cambio descuento</label>
+                            <input type="text" id="inputCambio2" name="inputCambio2" class="form-control" step=0.01 readonly>
+                        </div>
+                    <!-- <div class="cobrar row form-inline">
+                        <div class="form-group col-xs-3">
+                            <label>¿Donar?</label><br>
+                            <input type="checkbox" id="inputDonacion" name="inputDonacion" class="checkbox form-control">
+                        </div>
+                        <div class="form-group col-xs-5">
+                            <label>Administrador</label>
+                            <input type="password" id="inputAdmin" name="inputAdmin" class="form-control" readonly >
+                        </div>
+                    </div> -->
+                <?php }//end if vendedor  ?>
+                </div><!-- /. cobrar row -->
                 <div class="line"></div>
                 <div class="mygrid-wrapper-div">
                     <table id="dataTicket" class="table table-striped">
@@ -185,12 +230,13 @@ if ($resGetCategories->num_rows > 0) {
                     if ($_SESSION['perfil'] == 2) {
                         echo $cadMess;
                     } else if ($_SESSION['perfil'] == 3) {
-                        $cadV = 'Selecciona que precio deseas visualizar:<br>';
+                        /*$cadV = 'Selecciona que precio deseas visualizar:<br>';
                         $cadV .= '<button type="button" class="btn btn-info" id="precioC" data-id="cotizador">$ Cotizador</button>';
                         $cadV .= '&nbsp; &nbsp;';
                         $cadV .= '<button type="button" class="btn btn-info" id="precioP" data-id="publico">$ Publico</button>';
-                        echo $cadV;
-                    } else {
+                        echo $cadV;*/
+                        echo "Que sea un día de grandes ventas";
+                    }else {
                         echo "¿Cómo llegasta hasta acá?";
                     }
                     ?>
@@ -214,8 +260,10 @@ if ($resGetCategories->num_rows > 0) {
 
     $(document).ready(function () {
         var idUserPHP = <?= $idUser; ?>;
+        var idPerfilPHP = <?= $idPerfil; ?>;
+        var idStore = <?= $idStore; ?>;
 
-        $("#precioC").click(function () {
+        /*$("#precioC").click(function () {
             idUserPHP = <?= $idUser; ?>;
             $(".tipoPrecio").html("$ Cotizador");
             $('#modalWelcome').modal('hide');
@@ -225,7 +273,7 @@ if ($resGetCategories->num_rows > 0) {
             idUserPHP = 0;
             $(".tipoPrecio").html("$ Público");
             $('#modalWelcome').modal('hide');
-        })
+        })*/
 
         $(".clickCategory").click(function () {
             var category = $(this).attr("title");
@@ -238,7 +286,7 @@ if ($resGetCategories->num_rows > 0) {
                         $.ajax({
                             type: "POST",
                             url: "controllers/select_sales_sub_products_price.php",
-                            data: {idCategory: category, tarea: "catProduct", idUser: idUserPHP},
+                            data: {idCategory: category, tarea: "catProduct", idPerfil: idPerfilPHP, idStore: idStore},
                             success: function (msg2) {
                                 $(".productSubCategory").html('');
                                 $(".productInfo").html(msg2);
@@ -270,7 +318,7 @@ if ($resGetCategories->num_rows > 0) {
             $.ajax({
                 type: "POST",
                 url: "controllers/select_sales_product_price.php",
-                data: {idProduct: product, idUser: idUserPHP},
+                data: {idProduct: product, idPerfil: idPerfilPHP},
                 success: function (msg) {
                     $(".ticket #dataTicket tbody").append(msg);
                     $(".ticket #dataTicket tbody #inputCant").focus();
@@ -279,6 +327,19 @@ if ($resGetCategories->num_rows > 0) {
                     calChange2();
                 }
             });
+        });
+
+        $(".ticket .cobrar #inputDesc").on('input', function () {
+            var value = $(this).val();
+            if(idPerfilPHP == 3){//vendedor
+                if ((value !== '') && (value.indexOf('.') === -1)) {
+                    $(this).val(Math.max(Math.min(value, 30), 0));
+                }
+            }else if(idPerfilPHP == 2){//cotizador
+                if ((value !== '') && (value.indexOf('.') === -1)) {
+                    $(this).val(Math.max(Math.min(value, 12), 0));
+                }
+            }
         });
 
         $(".ticket .cobrar").on("focusout", "#inputRFCCliente", function () {
@@ -292,11 +353,13 @@ if ($resGetCategories->num_rows > 0) {
                     console.log(msg);
                     var msg = jQuery.parseJSON(msg);
                     if (msg.error == 0) {
-                        $(".ticket .cobrar #inputDesc").val(msg.dataRes[0].desc);
+                        //$(".ticket .cobrar #inputDesc").val(msg.dataRes[0].desc);
+                        $("#myModalAdd #inputIdClient").val(msg.dataRes[0].id);
+                        $(".ticket .cobrar #inputDesc").val(30);
                         $(".ticket #inputDesc").attr("readonly", true);
                         $(".ticket .cobrar .rfcCliente").removeClass("has-error");
                         $(".ticket .cobrar .rfcCliente").addClass("has-success");
-                        $("#myModalAdd #inputNombre").val(msg.dataRes[0].nombre);
+                        $("#myModalAdd #inputNombre").val(msg.dataRes[0].nombre+' '+msg.dataRes[0].ap+' '+msg.dataRes[0].am);
                         $("#myModalAdd #inputAP").val(msg.dataRes[0].ap);
                         $("#myModalAdd #inputAM").val(msg.dataRes[0].am);
                         $("#myModalAdd #inputRFC").val(msg.dataRes[0].rfc);
@@ -308,6 +371,7 @@ if ($resGetCategories->num_rows > 0) {
                         $("#myModalAdd #inputCol").val(msg.dataRes[0].col);
                         $("#myModalAdd #inputMun").val(msg.dataRes[0].mun);
                         $("#myModalAdd #inputEdo").val(msg.dataRes[0].edo);
+                        $("#myModalAdd #inputDir").val(msg.dataRes[0].calle+' '+msg.dataRes[0].num+', col.: '+msg.dataRes[0].col+', mun.: '+msg.dataRes[0].mun);
                         calChange2();
                     } else {
                         $(".ticket #inputDesc").attr("readonly", false);
@@ -406,9 +470,9 @@ if ($resGetCategories->num_rows > 0) {
             var descuento = parseInt($("#inputDesc").val());
             if (dinero < total || isNaN(dinero)) {
                 //alert("El dinero recibido no puede ser menor al total de la venta.");
-                $(this).parent().parent().find(".enviarTicket").attr("disabled", true);
+                $(this).parent().parent().find("#cobrar").attr("disabled", true);
             } else
-                $(this).parent().parent().find(".enviarTicket").removeAttr("disabled");
+                $(this).parent().parent().find("#cobrar").removeAttr("disabled");
             var total21 = descuento * 0.01;
             var total22 = total * total21;
             var total23 = total - total22;

@@ -22,7 +22,7 @@
             . "ORDER BY categoryId, productName ";
     $resGetStockStore=$con->query($sqlGetStockStore);
     $optStockStore='';
-    echo $sqlGetStockStore;
+    //echo $sqlGetStockStore;
     if($resGetStockStore->num_rows > 0){
         while($rowGetStockStore = $resGetStockStore->fetch_assoc()){
             /*$productId=$rowGetStockStore['producto_id'];

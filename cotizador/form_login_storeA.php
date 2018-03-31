@@ -89,7 +89,7 @@ while ($rowGetStores = $resGetStores->fetch_assoc()) {
           success: function (msg) {
             //alert(msg);
             if (msg == "true") {
-              location.href = "form_price.php";
+              location.href = "index_admin.php";
             } else {
               $('.error').html(msg);
             }

@@ -11,7 +11,7 @@
     //$lat=$tmpLat[0].".".substr($tmpLat[1], 0, 3);
     //$lon=$tmpLon[0].".".substr($tmpLon[1], 0, 3);
     $lat = $tmpLat[0];
-	$lon = $tmpLon[0];
+    $lon = $tmpLon[0];
 	
     //$sqlGetStore="SELECT * FROM $tStore WHERE id='$storeId' AND password='$storePass' AND latitud LIKE '$lat%' AND longitud LIKE '$lon%' ";
     $sqlGetStore="SELECT * FROM $tStore WHERE id='$storeId' AND password='$storePass' ";

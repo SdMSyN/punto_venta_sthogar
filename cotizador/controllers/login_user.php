@@ -4,7 +4,7 @@
     $user = $_POST['inputUser'];
     $pass = $_POST['inputPass'];
     
-	$cadErr = '';
+    $cadErr = '';
     $ban =false;
     $perfil = 0;
 	
@@ -14,9 +14,9 @@
         $rowGetUser=$resGetUser->fetch_assoc();
        
         $_SESSION['sessU'] = true;
-		$_SESSION['sessA'] = true;
-		$_SESSION['userId'] = $rowGetUser['id'];
-		$_SESSION['userName'] = $rowGetUser['ap']." ".$rowGetUser['am']." ".$rowGetUser['nombre'];
+        $_SESSION['sessA'] = true;
+        $_SESSION['userId'] = $rowGetUser['id'];
+        $_SESSION['userName'] = $rowGetUser['ap']." ".$rowGetUser['am']." ".$rowGetUser['nombre'];
         $_SESSION['perfil'] = $rowGetUser['perfil_id'];
         $perfil = $rowGetUser['perfil_id'];
         $ban = true;
@@ -26,10 +26,10 @@
         $_SESSION['sessU']=false;
         //echo "Error en la consulta<br>".$con->error;
         $cadErr .= "Usuario incorrecto";
-		$ban = false;
+        $ban = false;
     }
     
-	if($ban){
+    if($ban){
         echo json_encode(array("error"=>0, "perfil"=>$perfil));
     }else{
         echo json_encode(array("error"=>1, "msgErr"=>$cadErr));

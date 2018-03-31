@@ -13,7 +13,9 @@
     
     //$sqlGetReport = "SELECT (SELECT nombre FROM $tProduct WHERe id=$tSaleProd.producto_id) as producto, $tSaleProd.costo_unitario as cu, $tSaleProd.cantidad as cant, $tSaleProd.costo_total as ct, (SELECT usuario_id FROM $tSaleInfo WHERE id=$tSaleProd.venta_info_id) as user FROM $tProduct, $tSaleProd, $tSaleInfo WHERE $tSaleProd.venta_info_id=$tSaleInfo.id AND $tSaleInfo.tienda_id='$store' ";
     //$sqlGetReport = "SELECT $tSaleProd.costo_unitario as cu, $tSaleProd.cantidad as cant, $tSaleProd.costo_total as ct, (SELECT nombre FROM $tProduct WHERE id=$tSaleProd.producto_id) as producto FROM $tSaleProd, $tSaleInfo, $tProduct WHERE $tSaleProd.venta_info_id=$tSaleInfo.id AND $tSaleProd.producto_id=$tProduct.id  ";
-    $sqlGetInfoSale = "SELECT id, (SELECT nombre FROM $tUser WHERE id=$tSaleInfo.usuario_id) as user, (SELECT nombre FROM $tStore WHERE id=$tSaleInfo.tienda_id) as store, fecha, hora, pago, cambio FROM $tSaleInfo WHERE tienda_id='$store' ";
+    $sqlGetInfoSale = "SELECT id, (SELECT nombre FROM $tUser WHERE id=$tSaleInfo.usuario_id) as user, "
+            . "(SELECT nombre FROM $tStore WHERE id=$tSaleInfo.tienda_id) as store, fecha, hora, pago, total, cambio "
+            . "FROM $tSaleInfo WHERE tienda_id='$store' ";
     
     if($action=="day"){
         $sqlGetInfoSale .= " AND fecha='$dateNow' ";
@@ -49,6 +51,7 @@
         $costoFT=0;
         while($rowGetInfoSale = $resGetInfoSale->fetch_assoc()){
             $idInfoSale=$rowGetInfoSale['id'];
+            $totalInfoSale=$rowGetInfoSale['total'];
             //$sqlGetProductSale="SELECT (SELECT nombre FROM $tProduct WHERE id=$tSaleProd.producto_id) as producto, cantidad as cant, costo_unitario as cu, costo_total as ct";
             $sqlGetProductSale="SELECT $tProduct.nombre as producto, $tSaleProd.cantidad as cant, $tSaleProd.costo_unitario as cu, $tSaleProd.costo_total as ct, $tCategory.nombre as category FROM $tSaleProd INNER JOIN $tProduct ON $tProduct.id=$tSaleProd.producto_id INNER JOIN $tCategory ON $tCategory.id=$tProduct.categoria_id  ";
             //$sqlGetProductSale.=" FROM $tSaleProd WHERE venta_info_id='$idInfoSale' ";
@@ -79,7 +82,8 @@
                 if($rowGetInfoSale['pago']=="0.00" && $rowGetInfoSale['cambio']=="0.00") 
                     $optReport.='<td>0.00</td>';
                 else 
-                    $optReport.='<td>'.$rowGetProductSale['ct'].'</td>';
+                    //$optReport.='<td>'.$rowGetProductSale['ct'].'</td>';
+                    $optReport.='<td>'.$totalInfoSale.'</td>';
                 if($rowGetInfoSale['pago']=="0.00" && $rowGetInfoSale['cambio']=="0.00") 
                     $optReport.='<td>Si</td>';
                 else 
@@ -92,11 +96,13 @@
                 $i++;
                 $cantT+=$rowGetProductSale['cant'];
                 if($rowGetInfoSale['pago']=="0.00" && $rowGetInfoSale['cambio']=="0.00") 
-                    $rowGetProductSale['ct']=0;
-                $costoFT+=$rowGetProductSale['ct'];
+                    //$rowGetProductSale['ct']=0;
+                    $totalInfoSale = 0;
+                //$costoFT+=$rowGetProductSale['ct'];
+                $costoFT += $totalInfoSale;
             }
         }
-        $optReport.='<tr><td></td><td><b>Totales</b></td><td></td><td><b>'.$cantT.'</b></td><td colspan=5><b>'.$costoFT.'</b></td><td colspan=4></td></tr>';
+        $optReport.='<tr><td></td><td><b>Totales</b></td><td></td><td></td><td><b>'.$cantT.'</b></td><td colspan=5><b>'.$costoFT.'</b></td><td colspan=4></td></tr>';
     }else{
         $optReport = '<tr><td colspan="9">No hay ventas.</td></tr>';
     }

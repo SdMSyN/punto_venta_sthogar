@@ -3,12 +3,14 @@
     include ('../config/variables.php');
     
     $product_id=$_POST['idProduct'];
-    $idUser=$_POST['idUser'];
+    $idPerfil = $_POST['idPerfil'];
     
-	if($idUser == 0)
-		$sqlGetProduct="SELECT id, nombre, precio_publico as precio FROM $tProduct WHERE id='$product_id' ";
+	if ($idPerfil == 0 || $idPerfil == 3)
+            $sqlGetProduct="SELECT id, nombre, precio_publico as precio FROM $tProduct WHERE id='$product_id' ";
+        else if ($idPerfil == 2 )
+            $sqlGetProduct="SELECT id, nombre, precio_cotizador as precio FROM $tProduct WHERE id='$product_id' ";
 	else
-		$sqlGetProduct="SELECT id, nombre, precio_cotizador as precio FROM $tProduct WHERE id='$product_id' ";
+            $sqlGetProduct="SELECT id, nombre, precio_cotizador as precio FROM $tProduct WHERE id='$product_id' ";
     //echo $sqlGetProduct;
     $resGetProduct = $con->query($sqlGetProduct);
     $optProduct='';

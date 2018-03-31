@@ -20,7 +20,7 @@
         $costoFT=0;
         while($rowGetInfoStock = $resGetInfoStock->fetch_assoc()){
             $idInfoSale=$rowGetInfoStock['id'];
-            $sqlGetProductSale="SELECT nombre, precio, (SELECT nombre FROM $tCategory WHERE id=$tProduct.categoria_id) as categoria FROM $tProduct WHERE id='$idInfoSale' ";
+            $sqlGetProductSale="SELECT nombre, precio_publico as precio, (SELECT nombre FROM $tCategory WHERE id=$tProduct.categoria_id) as categoria FROM $tProduct WHERE id='$idInfoSale' ";
             if($category!="") $sqlGetProductSale.=" AND categoria_id='$category' ";
             $resGetProductSale=$con->query($sqlGetProductSale);
             while($rowGetProductSale = $resGetProductSale->fetch_assoc()){

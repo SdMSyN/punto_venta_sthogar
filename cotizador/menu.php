@@ -52,7 +52,15 @@
           <li><a href="form_select_client.php">Clientes</a></li>
           <li><a href="#.php">Cotizaciones</a></li>
           <?php
-        } elseif (isset($_SESSION['perfil']) && $_SESSION['perfil'] == "3" && isset($_SESSION['sess'])) {
+        }else if (isset($_SESSION['perfil']) && $_SESSION['perfil'] == "4" && isset($_SESSION['sessA'])) {
+          ?>
+          <li><a href="form_select_product_missing.php">Faltantes</a></li>
+          <li><a href="form_select_report.php">Reportes</a></li>
+          <li><a href="form_select_client.php">Clientes</a></li>
+          <li><a href="#.php">Cotizaciones</a></li>
+          <?php
+        } 
+        elseif (isset($_SESSION['perfil']) && $_SESSION['perfil'] == "3" && isset($_SESSION['sess'])) {
           ?>
           <li><a href="form_orders.php">Pedidos</a></li>
           <li><a href="form_orders_est.php">Seguimiento de pedidos</a></li>
@@ -64,7 +72,7 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <?php
-        if (isset($_SESSION['perfil']) && $_SESSION['perfil'] == "1" ) {
+        if (isset($_SESSION['perfil']) && ($_SESSION['perfil'] == "1" || $_SESSION['perfil'] == 4) ) {
           echo '<li class="no-a user-name">Bienvenido ' . $_SESSION['userName'] . '</li>';
           echo '<li><a href="controllers/proc_destroy_login_admin.php">Cerrar Sesión</a></li>';
         }else if(isset($_SESSION['perfil']) && $_SESSION['perfil'] != "1"){

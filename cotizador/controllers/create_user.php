@@ -19,11 +19,11 @@
     (isset($_POST['inputNacimiento'])) ? $nac=$_POST['inputNacimiento'] : $nac="";
     
     
-    $sqlCreateUser="INSERT INTO $tUser (nombre, ap, am, user, password, perfil_id, rfc, direccion, num_int, num_ext, colonia, municipio, telefono, celular, created, updated, fec_nac, activo) VALUES ('$nombre', '$ap', '$am', '$user', '$pass', '$perfil', $rfc, '$dir', '$numInt', '$numExt', '$col', '$mun', '$tel', '$cel', '$dateNow', '$dateNow', '$nac', '1') ";
+    $sqlCreateUser="INSERT INTO $tUser (nombre, ap, am, user, password, perfil_id, rfc, direccion, num_int, num_ext, colonia, municipio, telefono, celular, created, updated, fec_nac, activo) VALUES ('$nombre', '$ap', '$am', '$user', '$pass', '$perfil', '$rfc', '$dir', '$numInt', '$numExt', '$col', '$mun', '$tel', '$cel', '$dateNow', '$dateNow', '$nac', '1') ";
     if($con->query($sqlCreateUser) === TRUE ){
         echo 'true';
     }else{
-        echo 'Error al crear usuario<br>'.$con->error;
+        echo 'Error al crear usuario<br>'.$con->error.'<br>'.$sqlCreateUser;
     }
       
 ?>

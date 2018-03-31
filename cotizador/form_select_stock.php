@@ -168,6 +168,20 @@ else {
             }
           }
         });//end ajax
+        
+        $.ajax({
+            type: 'POST',
+            url: 'controllers/select_stock_products.php',
+            data: {storeId: selectStore},
+            success: function (msg) {
+                //alert(msg);
+                if (msg == "false") {
+                    $('#inputProduct').empty();
+                } else {
+                    $('#inputProduct').html(msg);
+                }
+            }
+        });//end ajax
 
       });
 
