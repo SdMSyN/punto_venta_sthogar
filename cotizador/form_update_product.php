@@ -47,15 +47,15 @@ else {
                 </div>
                 <div class="form-group">
                     <label>Precio Franquicia: </label>
-                    <input type="number" step="any" id="inputPrecioF" name="inputPrecioF" class="form-control" value="<?= $rowGetProduct['precio_franquicia']; ?>">
+                    <input type="number" step="any" id="inputPrecioFranq" name="inputPrecioFranq" class="form-control" value="<?= $rowGetProduct['precio_franquicia']; ?>">
                 </div>
                 <div class="form-group">
                     <label>Precio Cotizador: </label>
-                    <input type="number" step="any" id="inputPrecioC" name="inputPrecioC" class="form-control" value="<?= $rowGetProduct['precio_cotizador']; ?>">
+                    <input type="number" step="any" id="inputPrecioCot" name="inputPrecioCot" class="form-control" value="<?= $rowGetProduct['precio_cotizador']; ?>">
                 </div>
                 <div class="form-group">
                     <label>Precio público: </label>
-                    <input type="number" step="any" id="inputPrecioP" name="inputPrecioP" class="form-control" value="<?= $rowGetProduct['precio_publico']; ?>">
+                    <input type="number" step="any" id="inputPrecioPub" name="inputPrecioPub" class="form-control" value="<?= $rowGetProduct['precio_publico']; ?>">
                 </div>
                 <div class="form-group">
                     <label>Cantidad Mínima en Almacen: </label>
@@ -122,24 +122,24 @@ else {
                     $("#inputNombre").tooltip('show');
                     return false;
                 }
-                if ($("#inputPrecio").val() == "") {
+                if ($("#inputPrecioR").val() == "") {
                     //alert("No puede ser vacio");
                     $("#inputPrecio").tooltip({title: "Precio del producto obligatorio", trigger: "focus", placement: 'bottom'});
                     $("#inputPrecio").tooltip('show');
                     return false;
                 }
-                if (!$("#inputPrecio").val().match(/^-?[0-9]+([\.][0-9]*)?$/)) {
+                if (!$("#inputPrecioR").val().match(/^-?[0-9]+([\.][0-9]*)?$/)) {
                     // inputted file path is not an image of one of the above types
                     $("#inputPrecio").tooltip({title: "Formato de precio incorrecto", trigger: "focus", placement: 'bottom'});
                     $("#inputPrecio").tooltip('show');
                     return false;
                 }
-                if ($("#inputPrecioC").val() == "") {
+                if ($("#inputPrecioCot").val() == "") {
                     $("#inputPrecio").tooltip({title: "Precio del producto obligatorio", trigger: "focus", placement: 'bottom'});
                     $("#inputPrecio").tooltip('show');
                     return false;
                 }
-                if (!$("#inputPrecioC").val().match(/^-?[0-9]+([\.][0-9]*)?$/)) {
+                if (!$("#inputPrecioCot").val().match(/^-?[0-9]+([\.][0-9]*)?$/)) {
                     $("#inputPrecio").tooltip({title: "Formato de precio incorrecto", trigger: "focus", placement: 'bottom'});
                     $("#inputPrecio").tooltip('show');
                     return false;

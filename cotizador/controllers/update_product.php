@@ -7,9 +7,9 @@ $userId = $_POST['userId'];
 $productId = $_POST['productId'];
 $nombre = $_POST['inputNombre'];
 $precioR = $_POST['inputPrecioR'];
-$precioF = $_POST['inputPrecioF'];
-$precioC = $_POST['inputPrecioC'];
-$precioP = $_POST['inputPrecioP'];
+$precioF = $_POST['inputPrecioFranq'];
+$precioC = $_POST['inputPrecioCot'];
+$precioP = $_POST['inputPrecioPub'];
 $cantMin = $_POST['inputCantMin'];
 $codBar = $_POST['inputCB'];
 $descrip = $_POST['inputDesc'];
@@ -43,7 +43,7 @@ if ($_FILES['inputPDF']['name'] != "" && $_FILES['inputImg']['name'] != "") {
             if ($resultado && $resultado2) {
                 $ban = true;
             } else {
-                $error .= "ocurrio un error al mover el pdf o la imagen.";
+                $error .= "Ocurrio un error al mover el pdf o la imagen.";
             }
         } else {
             $error .= "Se excede el tamaño de $limite_kb Kilobytes";
@@ -74,7 +74,7 @@ if ($_FILES['inputPDF']['name'] != "" && $_FILES['inputImg']['name'] != "") {
             if ($resultado) {
                 $ban = true;
             } else {
-                $error .= "ocurrio un error al mover el archivo.";
+                $error .= "Ocurrio un error al mover el archivo.";
             }
         } else {
             $error .= "Excede el tamaño de $limite_kb Kilobytes";
@@ -105,7 +105,7 @@ if ($_FILES['inputPDF']['name'] != "" && $_FILES['inputImg']['name'] != "") {
             if ($resultado) {
                 $ban = true;
             } else {
-                $error .= "ocurrio un error al mover el pdf.";
+                $error .= "Ocurrio un error al mover el pdf.";
             }
         } else {
             $error .= "PDF Excede el tamaño de $limite_kb Kilobytes";
