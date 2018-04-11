@@ -2,7 +2,7 @@
     include ('../config/conexion.php');
     include ('../config/variables.php');
     
-    $store_id=$_POST['idStore'];
+    //$store_id=$_POST['idStore'];
     $product_id=$_POST['inputCod'];
     
     /*$sqlGetProduct="SELECT id, nombre, precio, ".
@@ -16,7 +16,7 @@
              . "INNER JOIN $tStore ON $tStore.id=$tStock.tienda_id "
         . "WHERE  $tStock.tienda_id='$store_id' "
              . "AND ($tProduct.nombre='$product_id' OR $tProduct.codigo_barras='$product_id') ";*/
-		$sqlGetProduct="SELECT $tProduct.id as id, $tProduct.nombre as nombre, $tProduct.precio as precio "
+		$sqlGetProduct="SELECT $tProduct.id as id, $tProduct.nombre as nombre, $tProduct.precio_publico as precio "
         . "FROM $tProduct "
         . "WHERE ($tProduct.nombre='$product_id' OR $tProduct.codigo_barras='$product_id') ";
     //echo $sqlGetProduct;

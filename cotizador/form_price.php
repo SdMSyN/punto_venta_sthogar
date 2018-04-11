@@ -85,9 +85,13 @@ if ($resGetCategories->num_rows > 0) {
                 </div>
                 <div class="cobrar row">
                 <?php if (isset($_SESSION['sessU']) && ($_SESSION['perfil'] == 3 || $_SESSION['perfil'] == 2) ) { ?>
-                        <div class="form-group col-xs-3 rfcCliente">
+                        <div class="form-group col-xs-2 rfcCliente">
                             <label>RFC Cliente</label>
                             <input type="text" id="inputRFCCliente" name="inputRFCCliente" class="form-control" max="13">
+                        </div>
+                        <div class="form-group col-xs-2 rfcCliente">
+                            <label>Buscar Cliente</label>
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalClient"><i class="fa fa-search" style="font-size: 2.2rem;"></i></button>
                         </div>
                         <div class="form-group col-xs-2 descuento">
                             <label>Descuento %</label>
@@ -171,6 +175,29 @@ if ($resGetCategories->num_rows > 0) {
                         </div>
                     </div>
                 </div>
+                
+                <!-- Modal buscar cliente -->
+                <div class="modal fade" id="modalClient" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title" id="myModalLabel">Buscar Cliente</h4>
+                            </div>
+                            <div class="error"></div>
+                            <!-- <form id="formAddClient" name="formAddClient" method="POST" > -->
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label>Nombre o RFC</label>
+                                    <input type="text" id="inputNameClientRfc" name="inputNameClientRfc" class="form-control nameClientRfc">
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" id="searchClient" class="btn btn-primary searchClient">Buscar</button>
+                            </div> 
+                        </div>
+                    </div>
+                </div><!-- end modalClient -->
             </form>
         </div>
         <div class="teclado text-center">
@@ -342,6 +369,25 @@ if ($resGetCategories->num_rows > 0) {
             }
         });
 
+        $("#modalClient").on("click", ".searchClient", function () {
+            var queryClient = $("#modalClient #inputNombre").val();
+            console.log(queryClient);
+            $.ajax({
+                type: "POST",
+                url: "controllers/searchClient.php",
+                data: {queryClient: queryClient},
+                success: function(msg){
+                    console.log(msg);
+                    var msg = jQuery.parseJSON(msg);
+                    if(msg.error == 0){
+                        
+                    }else{
+                        
+                    }
+                }
+            });
+        });//end function searchClient
+
         $(".ticket .cobrar").on("focusout", "#inputRFCCliente", function () {
             var rfcCliente = $("#inputRFCCliente").val();
             console.log(rfcCliente);
@@ -355,7 +401,7 @@ if ($resGetCategories->num_rows > 0) {
                     if (msg.error == 0) {
                         //$(".ticket .cobrar #inputDesc").val(msg.dataRes[0].desc);
                         $("#myModalAdd #inputIdClient").val(msg.dataRes[0].id);
-                        $(".ticket .cobrar #inputDesc").val(30);
+                        $(".ticket .cobrar #inputDesc").val(msg.dataRes[0].desc);
                         $(".ticket #inputDesc").attr("readonly", true);
                         $(".ticket .cobrar .rfcCliente").removeClass("has-error");
                         $(".ticket .cobrar .rfcCliente").addClass("has-success");
@@ -603,6 +649,12 @@ if ($resGetCategories->num_rows > 0) {
             remote: 'controllers/select_sales_product_json_price.php?query=%QUERY',
             limit: 8
         });
+
+        $('input.nameClientRfc').typeahead({
+            name: 'inputNameClientRfc',
+            remote: 'controllers/searchClient.php?query=%QUERY',
+            limit: 8
+        })
 
         $('#formTeclado').validate({
             rules: {
