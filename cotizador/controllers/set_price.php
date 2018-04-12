@@ -62,12 +62,16 @@
 		$this->Cell(180, 3, utf8_decode('Siempre a tu lado con las mejores soluciones tecnológicas.'), 0, 1, 'R');
         $this->Cell(10, 3, utf8_decode(''), 0, 1, 'L');
 		$this->SetFont('Arial','',8);
-        $this->Cell(10, 3, utf8_decode('Soluciones Tecnológicas para el Hogar'), 0, 1, 'L');
+        $this->Cell(0, 3, utf8_decode('Soluciones Tecnológicas para el Hogar - www.st-hogar.com'), 0, 1, 'C');
         //$this->Cell(180, 3, utf8_decode('Siempre a tu lado con las mejores soluciones tecnológicas.'), 0, 1, 'R');
-        $this->Cell(10, 3, utf8_decode('www.st-hogar.com e-mail: contacto@st-hogar.com'), 0, 1, 'L');
-        $this->Cell(10, 3, utf8_decode('ST-Hogar C. Malintzi No. 163 Sn. Pedro Muñoztla, Tlax.'), 0, 1, 'L');
-        $this->Cell(0, 3, utf8_decode('ST-Store C. Miguel Hernández No. 403 - Local 2, Tepetlapa, Tlax.'), 0, 1, 'L');
-        $this->Cell(0, 3, utf8_decode('Cel: 246-116-3637 | Cel: 246-177-6355 | Oficina ST-Store: 246-464-8317'), 0, 0, 'L');
+        $this->Cell(100, 3, utf8_decode('Sucursal: Chiautempan'), 0, 0, 'L');
+        $this->Cell(10, 3, utf8_decode('Sucursal: Apizaco'), 0, 1, 'L');
+        $this->Cell(100, 3, utf8_decode('Correo: contacto@st-hogar.com'), 0, 0, 'L');
+        $this->Cell(10, 3, utf8_decode('Correo: contactoapizaco@st-hogar.com'), 0, 1, 'L');
+        $this->Cell(100, 3, utf8_decode('Dirección: C. Miguel Hernández No. 403 - Local 2, Tepetlapa, Tlax.'), 0, 0, 'L');
+        $this->Cell(10, 3, utf8_decode('Dirección: Blvrd. Francisco I. Madero No. 12, Apizaco, Tlax.'), 0, 1, 'L');
+        $this->Cell(100, 3, utf8_decode('Cel: 246-116-3637 | Cel: 246-177-6355 | Oficina ST-Store: 246-464-8317'), 0, 0, 'L');
+        $this->Cell(10, 3, utf8_decode('Cel: 246-116-3637 '), 0, 1, 'L');
         $this->Cell(0, 3,'Pag. '.$this->PageNo().'/{nb}', 0, 1, 'R');
       }
     }//Fin class PDF
