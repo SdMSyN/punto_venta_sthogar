@@ -370,17 +370,19 @@ if ($resGetCategories->num_rows > 0) {
         });
 
         $("#modalClient").on("click", ".searchClient", function () {
-            var queryClient = $("#modalClient #inputNombre").val();
+            var queryClient = $("#modalClient #inputNameClientRfc").val();
             console.log(queryClient);
             $.ajax({
                 type: "POST",
-                url: "controllers/searchClient.php",
+                url: "controllers/searchClientQuery.php",
                 data: {queryClient: queryClient},
                 success: function(msg){
                     console.log(msg);
                     var msg = jQuery.parseJSON(msg);
                     if(msg.error == 0){
-                        
+                        $(".ticket .cobrar #inputDesc").val(msg.dataRes[0].desc);
+                        $(".ticket .cobrar #inputIdClient").val(msg.dataRes[0].id);
+                        $(".ticket .cobrar #inputRFCCliente").val(msg.dataRes[0].rfc);
                     }else{
                         
                     }

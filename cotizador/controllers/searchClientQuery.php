@@ -3,20 +3,20 @@
 include ('../config/conexion.php');
 include ('../config/variables.php');
 $descuento = array();
-$query = $_REQUEST['query'];
+$query = $_POST['queryClient'];
 $ban = false;
 $msgErr = '';
 
-$sqlGetDesc = "SELECT nombre, ap, am FROM $tClients WHERE rfc LIKE '%{$query}%' "
-. "OR nombre LIKE '%{$query}%' OR ap LIKE '%{$query}%' OR am LIKE '%{$query}%' ";
+$sqlGetDesc = "SELECT id, rfc, porc_desc "
+        . "FROM $tClients "
+        . "WHERE CONCAT_WS(' ',nombre,ap,am) LIKE '%$query%' ";
 $resGetDesc = $con->query($sqlGetDesc);
 if ($resGetDesc->num_rows > 0) {
     while($rowGetDesc = $resGetDesc->fetch_assoc()){
-        $name = $rowGetDesc['nombre'];
-        $ap = $rowGetDesc['ap'];
-        $am = $rowGetDesc['am'];
-        //$descuento[] = array('id' => $id, 'desc' => $porc_desc, 'rfc' => $rfc);
-        $descuento[] = $name.' '.$ap.' '.$am;
+        $id = $rowGetDesc['id'];
+        $rfc = $rowGetDesc['rfc'];
+        $desc = $rowGetDesc['porc_desc'];
+        $descuento[] = array('id' => $id, 'desc' => $desc, 'rfc' => $rfc);
     }
     $ban = true;
 } else {
@@ -24,10 +24,10 @@ if ($resGetDesc->num_rows > 0) {
     $msgErr .= 'Error: No existe el cliente.';
 }
 
-/*if ($ban) {
+if ($ban) {
     echo json_encode(array("error" => 0, "dataRes" => $descuento, "sql"=>$sqlGetDesc));
 } else {
     echo json_encode(array("error" => 1, "msgErr" => $msgErr, "sql"=>$sqlGetDesc));
-}*/
-echo json_encode($descuento);
+}
+
 ?>
