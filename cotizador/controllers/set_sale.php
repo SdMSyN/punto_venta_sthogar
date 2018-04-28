@@ -131,7 +131,7 @@
             $cantDesc = $_POST['inputCantDesc'];
             $idClient = (isset($_POST['inputIdClient'])) ? $_POST['inputIdClient'] : $idClient = 0;
             if ($idClient != 0) {
-                $idClient2 = "'$idClient'";
+                $idClient2 = $idClient;
             } else {
                 $idClient2 = "NULL";
             }
