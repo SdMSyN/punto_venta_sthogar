@@ -28,7 +28,7 @@ $docName = $countNumProducts . "." . $ext[1];
 $fileName = $countNumProducts . ".pdf";
 //echo "--".$docName."--";
 if ($_FILES["inputImg"]["error"] > 0 || $_FILES["InputFile"]["error"] > 0) {
-    $error.= "Ha ocurrido un error, desconocido.";
+    $error.= "Ha ocurrido un error, desconocido.<br>".$FILES["inputImg"]["error"]."<br>".$_FILES["InputFile"]["error"];
 } else {
     $limite_kb = 1000;
     if ($_FILES['inputImg']['size'] <= $limite_kb * 1024 && $_FILES['InputFile']['size'] <= $limite_kb * 1024) {
