@@ -4,12 +4,19 @@ include ('../config/conexion.php');
 include ('../config/variables.php');
 $descuento = array();
 $query = $_POST['queryClient'];
+$idPerfil = $_POST['idPerfil'];
 $ban = false;
 $msgErr = '';
 
-$sqlGetDesc = "SELECT id, rfc, porc_desc "
+if($idPerfil == 3){
+    $sqlGetDesc = "SELECT id, rfc, porc_desc "
+        . "FROM $tClients "
+        . "WHERE CONCAT_WS(' ',nombre,ap,am) LIKE '%$query%' AND franq <> '1' ";
+}else{
+    $sqlGetDesc = "SELECT id, rfc, porc_desc "
         . "FROM $tClients "
         . "WHERE CONCAT_WS(' ',nombre,ap,am) LIKE '%$query%' ";
+}
 $resGetDesc = $con->query($sqlGetDesc);
 if ($resGetDesc->num_rows > 0) {
     while($rowGetDesc = $resGetDesc->fetch_assoc()){

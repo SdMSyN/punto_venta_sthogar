@@ -66,12 +66,12 @@
                     } elseif (isset($_SESSION['perfil']) && $_SESSION['perfil'] == "3" && isset($_SESSION['sess'])) {
                         ?>
                         <a class="navbar-brand" href="../form_price.php">Inicio</a>
-                        <a class="navbar-brand" href="../form_orders.php">Pedidos</a>
+                        <!-- <a class="navbar-brand" href="../form_orders.php">Pedidos</a> -->
                         <?php
                     } else {
                         ?>
                         <a class="navbar-brand" href="../form_price.php">Inicio</a>
-                        <a class="navbar-brand" href="../form_orders.php">Pedidos</a>
+                        <!-- <a class="navbar-brand" href="../form_orders.php">Pedidos</a> -->
                         <?php
                     }
                     ?>      
@@ -132,6 +132,13 @@
             $idClient = (isset($_POST['inputIdClient'])) ? $_POST['inputIdClient'] : $idClient = 0;
             if ($idClient != 0) {
                 $idClient2 = $idClient;
+                //Obtenemos información del cliente
+                $sqlGetClient = "SELECT CONCAT(nombre,' ',ap,' ',am) as name, rfc "
+                        . "FROM $tClients WHERE id='$idClient' ";
+                $resGetClient = $con->query($sqlGetClient);
+                $rowGetClient =$resGetClient->fetch_assoc();
+                $nameClient = $rowGetClient['name'];
+                $rfcClient = $rowGetClient['rfc'];
             } else {
                 $idClient2 = "NULL";
             }
@@ -220,6 +227,7 @@
             }
 
             $cad .= '<p class="text-center">Gracias por su preferencia.</p>';
+            $cad .= ($idClient != 0) ? '<p>Cliente: '.$nameClient.', RFC: '.$rfcClient.'</p>' : '';
             $cad .= '<p class="text-center" style="font-zie: 10px">Sistema Punto de Venta por <br>www.solucionesynegocios.com.mx</p>';
             $cad .= '</div><div class="col-sm-10"></div>'; //Fin col-sm-2
             $cad .= '</div></div>'; //Fin área imprime -- Fin row

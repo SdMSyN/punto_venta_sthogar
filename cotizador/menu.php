@@ -50,7 +50,8 @@
           <li><a href="form_select_report.php">Reportes</a></li>
           <!-- <li><a href="form_select_report_order.php">Pedidos</a></li> -->
           <li><a href="form_select_client.php">Clientes</a></li>
-          <li><a href="#.php">Cotizaciones</a></li>
+          <!-- <li><a href="#.php">Cotizaciones</a></li> -->
+          <li><a href="form_price.php">Vender</a></li>
           <?php
         }else if (isset($_SESSION['perfil']) && $_SESSION['perfil'] == "4" && isset($_SESSION['sessA'])) {
           ?>
@@ -62,8 +63,8 @@
         } 
         elseif (isset($_SESSION['perfil']) && $_SESSION['perfil'] == "3" && isset($_SESSION['sess'])) {
           ?>
-          <li><a href="form_orders.php">Pedidos</a></li>
-          <li><a href="form_orders_est.php">Seguimiento de pedidos</a></li>
+          <!-- <li><a href="form_orders.php">Pedidos</a></li>
+          <li><a href="form_orders_est.php">Seguimiento de pedidos</a></li> -->
           <?php
         }
         ?>

@@ -28,11 +28,16 @@ if ($_POST['tarea'] == "catProduct"){
                 . "FROM $tProduct WHERE $tProduct.categoria_id='$category_id' AND "
                 . "$tProduct.activo='1' ORDER BY $tProduct.nombre ";
     }else{
-        $sqlGetProducts = "SELECT $tProduct.img, $tProduct.id, $tProduct.nombre, $tProduct.pdf, $tProduct.descripcion, $tProduct.precio_publico as precio FROM $tProduct WHERE $tProduct.categoria_id='$category_id' AND $tProduct.activo='1' ORDER BY $tProduct.nombre "; 
+        $sqlGetProducts = "SELECT $tProduct.img, $tProduct.id, $tProduct.nombre, $tProduct.pdf, "
+                . "$tProduct.descripcion, $tProduct.precio_publico as precio "
+                . "FROM $tProduct WHERE $tProduct.categoria_id='$category_id' AND $tProduct.activo='1' "
+                . "ORDER BY $tProduct.nombre "; 
     }
 }else
 //$sqlGetProducts="SELECT * FROM $tProduct WHERE subcategoria_id='$category_id' AND activo='1' ";
-    $sqlGetProducts = "SELECT $tProduct.img, $tProduct.id, $tProduct.nombre FROM $tProduct WHERE $tProduct.subcategoria_id='$category_id' AND $tProduct.activo='1' ORDER BY $tProduct.nombre ";
+    $sqlGetProducts = "SELECT $tProduct.img, $tProduct.id, $tProduct.nombre "
+        . "FROM $tProduct WHERE $tProduct.subcategoria_id='$category_id' AND $tProduct.activo='1' "
+        . "ORDER BY $tProduct.nombre ";
 
 $resGetProducts = $con->query($sqlGetProducts);
 $optProducts = '';

@@ -11,6 +11,7 @@
             . "$tStock.producto_id as stockProductId, "
             . "$tProduct.categoria_id as productCategory, "
             . "$tProduct.nombre as productName, "
+            . "$tProduct.img as productImg, "
             . "$tCategory.nombre as categoryName, "
             . "$tCategory.id as categoryId "
             . "FROM $tStock "
@@ -33,6 +34,7 @@
             $optStockStore.='<tr>';
             //$optStockStore.='<td><input type="hidden" value="'.$rowGetStockStore['stockId'].'" name="stockId[]" >'.$rowGetStockStore['stockId'].'</td>';
             $optStockStore.='<input type="hidden" value="'.$rowGetStockStore['stockId'].'" name="stockId[]" >';
+            $optStockStore .= '<td><img src="' . $rutaImgProd . $rowGetStockStore['productImg'] . '" class="img-product-list"></td>';
             $optStockStore.='<td>'.$rowGetStockStore['productName'].'</td>';
             $optStockStore.='<td>'.$rowGetStockStore['categoryName'].'</td>';
             $optStockStore.='<td>'.$rowGetStockStore['stockCant'].'</td>';

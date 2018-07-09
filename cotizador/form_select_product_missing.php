@@ -24,26 +24,32 @@ else {
         <div class="row">
             <div class="titulo-crud text-center">
                 PRODUCTOS FALTANTES
+                <div style="padding-left: 1rem;">
+                    <a href="javascript:void(0)" id="imprime" class="btn btn-success">Imprime 
+                            <span class="glyphicon glyphicon-print"></span></a>
+                </div>
             </div>	  
         </div>
 
         <br>
-        <table class="table table-striped" id="data">
-            <thead>
-                <tr>
-                    <th class="t-head-first"><span title="id">Id</span></th>
-                    <th class="t-head">Imagen</th>
-                    <th class="t-head"><span title="nombre">Producto</span></th>
-                    <th class="t-head"><span title="categoria">Categoría</span></th>
-                    <!-- <th class="t-head"><span title="subcategoria">Subcategoría</span></th> -->
-                    <th class="t-head"><span title="tienda">Almacen</span></th>
-                    <th class="t-head"><span title="cant">Estatus</span></th>
-                </tr>
-            </thead>
-            <tbody>
+        <div id="myPrintArea">
+            <table class="table table-striped" id="data">
+                <thead>
+                    <tr>
+                        <th class="t-head-first"><span title="id">Id</span></th>
+                        <th class="t-head">Imagen</th>
+                        <th class="t-head"><span title="nombre">Producto</span></th>
+                        <th class="t-head"><span title="categoria">Categoría</span></th>
+                        <!-- <th class="t-head"><span title="subcategoria">Subcategoría</span></th> -->
+                        <th class="t-head"><span title="tienda">Almacen</span></th>
+                        <th class="t-head"><span title="cant">Estatus</span></th>
+                    </tr>
+                </thead>
+                <tbody>
 
-            </tbody>    
-        </table>
+                </tbody>    
+            </table>
+        </div>
 
     </div><!-- fin container -->
 
@@ -81,6 +87,15 @@ else {
         });
     </script>
 
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#imprime').click(function () {
+                $("div#myPrintArea").printArea();
+                setTimeout("location.href='form_select_product_missing.php'", 1000);
+            });
+        });
+    </script>
+            
     <?php
 }//fin else sesión
 include ('footer.php');

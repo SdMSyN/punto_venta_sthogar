@@ -66,6 +66,13 @@ else {
                                     <label>Porcentaje de descuento *</label>
                                     <input type="number" id="inputPorcDesc" name="inputPorcDesc" class="form-control">
                                 </div>
+                                <div class="form-group">
+                                    <label>¿Franquicia? *</label>
+                                    <select class="form-control" name="inputFranq" id="inputFranq">
+                                        <option value="0">NO</option>
+                                        <option value="1">SI</option>
+                                    </select>
+                                </div>
                             </fieldset>
                             <fieldset>
                                 <legend>Contacto</legend>
@@ -186,6 +193,13 @@ else {
                                     <label>Porcentaje de descuento</label>
                                     <input type="number" id="inputPorcDesc" name="inputPorcDesc" class="form-control">
                                 </div>
+                                <div class="form-group">
+                                    <label>¿Franquicia? *</label>
+                                    <select class="form-control" name="inputFranq" id="inputFranq">
+                                        <option value="0">NO</option>
+                                        <option value="1">SI</option>
+                                    </select>
+                                </div>
                             </fieldset>
                             <fieldset>
                                 <legend>Contacto</legend>
@@ -254,7 +268,9 @@ else {
                             $.each(msg.dataRes, function (i, item) {
                                 var newRow = '<tr>'
                                         + '<td>' + msg.dataRes[i].id + '</td>'
-                                        + '<td>' + msg.dataRes[i].nombre + '</td>'
+                                        + '<td>' + msg.dataRes[i].nombre;
+                                        newRow += (msg.dataRes[i].franq == 1) ? ' (Franquicia)' : ''; 
+                                    newRow += '</td>'
                                         + '<td>' + msg.dataRes[i].tels + '</td>'
                                         + '<td>' + msg.dataRes[i].correo + '</td>'
                                         + '<td>' + msg.dataRes[i].rfc + '</td>'

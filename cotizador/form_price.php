@@ -35,7 +35,7 @@ if (isset($_SESSION['sessU'])) {//si se ha iniciado sesión
 }
 include('config/variables.php');
 
-$sqlGetCategories = "SELECT * FROM $tCategory WHERE activo='1' ";
+$sqlGetCategories = "SELECT * FROM $tCategory WHERE activo='1' ORDER BY nombre ";
 $resGetCategories = $con->query($sqlGetCategories);
 $optCategories = '';
 if ($resGetCategories->num_rows > 0) {
@@ -62,7 +62,7 @@ if ($resGetCategories->num_rows > 0) {
                         <input type="text" id="inputTotal" name="inputTotal" readonly step=0.01 class="form-control col-xs-12" >
                     </div>
                     <?php
-                    if (isset($_SESSION['sessU']) && $_SESSION['perfil'] == 3 ) {
+                    if (isset($_SESSION['sessU']) && $_SESSION['perfil'] == 3 || $_SESSION['perfil'] == 1 ) {
                         ?>
                         <div class="form-group col-xs-2">
                             <label>Recibido:</label></br>
@@ -75,7 +75,7 @@ if ($resGetCategories->num_rows > 0) {
                         <div class="form-group col-xs-2">
                             <label>Cobrar:</label></br>
                             <!-- <button type="button" class="enviarTicket btn btn-success" id="cobrar" dir="google.com"><i class="fa fa-money" style="font-size: 2.2rem;"></i></button> -->
-                            <input type="submit" id="cobrar" value="Cobrar" dir="controllers/set_sale.php" class="btn btn-primary">
+                            <input type="submit" id="cobrar" value="Cobrar" dir="controllers/set_sale.php" class="btn btn-primary" disabled>
                         </div>
                     <?php }//end if vendedor  ?>
                     <div class="form-group col-xs-2">
@@ -84,7 +84,7 @@ if ($resGetCategories->num_rows > 0) {
                     </div>
                 </div>
                 <div class="cobrar row">
-                <?php if (isset($_SESSION['sessU']) && ($_SESSION['perfil'] == 3 || $_SESSION['perfil'] == 2) ) { ?>
+                <?php if (isset($_SESSION['sessU']) && ($_SESSION['perfil'] == 3 || $_SESSION['perfil'] == 2 || $_SESSION['perfil'] == 1) ) { ?>
                         <div class="form-group col-xs-2 rfcCliente">
                             <label>RFC Cliente</label>
                             <input type="text" id="inputRFCCliente" name="inputRFCCliente" class="form-control" max="13">
@@ -103,7 +103,7 @@ if ($resGetCategories->num_rows > 0) {
                             <input type="text" id="inputTotal2" name="inputTotal2" class="form-control" step=0.01 readonly>
                         </div>
                     <?php }//end if vendedor  
-                    if (isset($_SESSION['sessU']) && $_SESSION['perfil'] == 3 ) {
+                    if (isset($_SESSION['sessU']) && $_SESSION['perfil'] == 3 || $_SESSION['perfil'] == 1) {
                     ?>
                         <div class="form-group col-xs-2">
                             <label>Cantidad descontada</label>
@@ -193,7 +193,7 @@ if ($resGetCategories->num_rows > 0) {
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" id="searchClient" class="btn btn-primary searchClient">Buscar</button>
+                                <button type="button" id="searchClient" class="btn btn-primary searchClient">OK</button>
                             </div> 
                         </div>
                     </div>
@@ -375,7 +375,7 @@ if ($resGetCategories->num_rows > 0) {
             $.ajax({
                 type: "POST",
                 url: "controllers/searchClientQuery.php",
-                data: {queryClient: queryClient},
+                data: {queryClient: queryClient, idPerfil: idPerfilPHP},
                 success: function(msg){
                     console.log(msg);
                     var msg = jQuery.parseJSON(msg);
@@ -383,6 +383,7 @@ if ($resGetCategories->num_rows > 0) {
                         $(".ticket .cobrar #inputDesc").val(msg.dataRes[0].desc);
                         $(".ticket .cobrar #inputIdClient").val(msg.dataRes[0].id);
                         $(".ticket .cobrar #inputRFCCliente").val(msg.dataRes[0].rfc);
+                        $('#modalClient').modal('hide');
                     }else{
                         
                     }
@@ -654,7 +655,7 @@ if ($resGetCategories->num_rows > 0) {
 
         $('input.nameClientRfc').typeahead({
             name: 'inputNameClientRfc',
-            remote: 'controllers/searchClient.php?query=%QUERY',
+            remote: 'controllers/searchClient.php?query=%QUERY&idPerfil='+idPerfilPHP,
             limit: 8
         })
 
