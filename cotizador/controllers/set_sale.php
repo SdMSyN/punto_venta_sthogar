@@ -118,11 +118,12 @@
             include ('../config/conexion.php');
             include ('../config/variables.php');
 
-            $idStore = $_POST['idStore'];
+            $idStore = (isset($_POST['idStore'])) ? $_POST['idStore'] : 12;
+                if($_POST['idStore'] == 0) $idStore = 12;
             $idUser = $_POST['idUser'];
 
             $total = $_POST['inputTotal'];
-            
+
             $recibido = $_POST['inputRecibido'];
             $cambio = $_POST['inputCambio'];
             $totalDesc = $_POST['inputTotal2'];
@@ -136,7 +137,7 @@
                 $sqlGetClient = "SELECT CONCAT(nombre,' ',ap,' ',am) as name, rfc "
                         . "FROM $tClients WHERE id='$idClient' ";
                 $resGetClient = $con->query($sqlGetClient);
-                $rowGetClient =$resGetClient->fetch_assoc();
+                $rowGetClient = $resGetClient->fetch_assoc();
                 $nameClient = $rowGetClient['name'];
                 $rfcClient = $rowGetClient['rfc'];
             } else {
@@ -157,8 +158,8 @@
             $cad .= '<p class="text-center" style="font-size: 7px; ">"Soluciones Tecnológicas para el Hogar"<br>'
                     . 'Sucursal: ' . $rowGetStoreInfo['nombre'] . '<br>'
                     . 'Dirección: ' . $rowGetStoreInfo['direccion'] . '<br>'
-                    . 'CP: '.$rowGetStoreInfo['cp'].'<br>'
-                    . 'RFC: '.$rowGetStoreInfo['rfc'].'<br>'
+                    . 'CP: ' . $rowGetStoreInfo['cp'] . '<br>'
+                    . 'RFC: ' . $rowGetStoreInfo['rfc'] . '<br>'
                     . 'Tel: ' . $rowGetStoreInfo['tel'] . ' </p>';
 
             //Obtenemos datos del vendedor y fecha de venta
@@ -168,8 +169,12 @@
             $cad .= '<p class="text-center">Le atendio: ' . $rowGetUser['nombre'] . '</br>Fecha: ' . $dateNow . '<br>Hora: ' . $timeNow . '</p>';
 
 
-            $sqlCreateInfoSale = "INSERT INTO $tSaleInfo (usuario_id, tienda_id, fecha, hora, pago, total, cambio, cliente_id) "
-                    . "VALUES ('$idUser', '$idStore', '$dateNow', '$timeNow', '$recibido', '$totalDesc', '$cambioDesc', '$idClient2' )";
+            $sqlCreateInfoSale = "INSERT INTO $tSaleInfo (usuario_id, tienda_id, "
+                    . "fecha, hora, pago, total, cambio, descuento, total_desc, "
+                    . "cant_desc, cambio_desc, cliente_id) "
+                    . "VALUES ('$idUser', '$idStore', "
+                    . " '$dateNow', '$timeNow', '$recibido', '$total', '$cambio', '$descuentoDesc', '$totalDesc', "
+                    . " '$cantDesc', '$cambioDesc', '$idClient2' )";
             if ($con->query($sqlCreateInfoSale) === TRUE) {
                 $idInfoSale = $con->insert_id;
                 $cad .= '<table><thead><tr><th>Producto</th><th style="padding-left: .5rem;">C.U.</th><th style="padding-left: .5rem;">Cant.</th><th style="padding-left: .5rem;">C.T.</th></tr></thead><tbody style="border: 1px solid black;">';
@@ -211,23 +216,23 @@
                     }
                 }//end for
             } else {
-                echo "Error al crear información de la venta.<br>" . $con->error;
+                echo "Error al crear información de la venta.<br>" . $con->error . "<br>".$sqlCreateInfoSale;
             }
 
             $cad .= '</tbody></table>';
-            if($descuentoDesc != 0){
-                $cad.='<p class="text-right">Subtotal: '.$total
-                        .'<br>Descuento del: '.$descuentoDesc.' %'
-                        .'<br>Total: '.$totalDesc
-                        .'<br>Efectivo: '.$recibido
-                        .'<br>Cambio: '.$cambioDesc
-                        .'</p>';
-            }else{
-                $cad.='<p class="text-right">Total: ' . $total . '<br>Efectivo: ' . $recibido . '<br>Cambio: ' . $cambio . '</p>';
+            if ($descuentoDesc != 0) {
+                $cad .= '<p class="text-right">Subtotal: ' . $total
+                        . '<br>Descuento del: ' . $descuentoDesc . ' %'
+                        . '<br>Total: ' . $totalDesc
+                        . '<br>Efectivo: ' . $recibido
+                        . '<br>Cambio: ' . $cambioDesc
+                        . '</p>';
+            } else {
+                $cad .= '<p class="text-right">Total: ' . $total . '<br>Efectivo: ' . $recibido . '<br>Cambio: ' . $cambio . '</p>';
             }
 
             $cad .= '<p class="text-center">Gracias por su preferencia.</p>';
-            $cad .= ($idClient != 0) ? '<p>Cliente: '.$nameClient.', RFC: '.$rfcClient.'</p>' : '';
+            $cad .= ($idClient != 0) ? '<p>Cliente: ' . $nameClient . ', RFC: ' . $rfcClient . '</p>' : '';
             $cad .= '<p class="text-center" style="font-zie: 10px">Sistema Punto de Venta por <br>www.solucionesynegocios.com.mx</p>';
             $cad .= '</div><div class="col-sm-10"></div>'; //Fin col-sm-2
             $cad .= '</div></div>'; //Fin área imprime -- Fin row
