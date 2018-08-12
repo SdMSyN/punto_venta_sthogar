@@ -55,7 +55,8 @@ if ($resGetInfoSale->num_rows > 0) {
         $optReport .= '<tr>';
         $optReport .= '<td>' . $i . '</td>';
         $optReport .= '<td><button class="btn btn-default" data-whatever="' . $idInfoSale 
-                . '" data-toggle="modal" data-target="#modalViewTicket">' . $idInfoSale . '</button></td>';
+                . '" data-toggle="modal" data-target="#modalViewTicket">' . $idInfoSale . '</button> '
+                . '<a href="print_ticket.php?idTicket='.$idInfoSale.'" class="btn btn-info"><span class="glyphicon glyphicon-print"></span></a></td>';
         $optReport .= '<td>' . $rowGetInfoSale['total'] . '</td>';
         $optReport .= '<td>' . $rowGetInfoSale['descuento'] . '</td>';
         $optReport .= '<td>' . $rowGetInfoSale['total_desc'] . '</td>';
