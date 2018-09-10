@@ -19,13 +19,16 @@
 			<div class="col-sm-6 text-right">
 				<p>
 					<strong>Dirección:</strong></br>
-					Lira y Ortega No. 7-B Altos<br>
-					Colonia Centro, Tlaxcala, Tlax.
+					C. Miguel Hernández 403 Local 2<br>
+					Tepetlapa, Chiautempan, Tlax.<br>
+					(A la altura de Veana sobre vía corta)<br>
+					Horario: 09:00 a 19:00 (L-S)
 				</p>
 				<p>
 					<strong>Teléfonos:</strong></br>
 					(Celular) 246-116-3637<br>
-					(Oficina) 46-6-34-28.
+					(Celular) 246-177-6355<br>
+					(Oficina) 46-4-83-17.
 				</p>
 				<p>
 					<strong>Correo eléctronico:</strong></br>
@@ -33,7 +36,36 @@
 				</p>
 			</div>
 			<div class="col-sm-6">
-				<iframe src="https://www.google.com/maps/embed?pb=!1m21!1m12!1m3!1d3765.1391387503113!2d-98.23766219141488!3d19.31976772419495!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m6!3e6!4m0!4m3!3m2!1d19.3200613!2d-98.23693259999999!5e0!3m2!1ses!2s!4v1432790912998" width="400" height="300" frameborder="0" style="border:0"></iframe>
+				<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1882.668175169052!2d-98.20137427534428!3d19.31120569891156!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85cfdebfc012feb7%3A0xfbb6b59be0033803!2sSt-Hogar!5e0!3m2!1ses-419!2smx!4v1522123102450" width="400" height="300" frameborder="0" style="border:0" allowfullscreen></iframe>
+			</div>
+		</div>
+	</div>
+</div>
+<hr>
+<div class="row">
+	<div class="panel panel-info">
+		<div class="panel-heading">
+			<h3 class="panel-title text-center">Encuéntranos también en Apizaco</h3>
+		</div>
+		<div class="panel-body">
+			<div class="col-sm-6 text-right">
+				<p>
+					<strong>Dirección:</strong></br>
+					Blvrd. Francisco I. Madero 12<br>
+					Apizaco, Tlax.<br>
+					Horario: 09:00 a 19:00 (L-S)
+				</p>
+				<p>
+					<strong>Teléfonos:</strong></br>
+					(Celular) 246-116-3637<br>
+				</p>
+				<p>
+					<strong>Correo eléctronico:</strong></br>
+					contactoapizaco@st-hogar.com
+				</p>
+			</div>
+			<div class="col-sm-6">
+				<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1330.4113976823623!2d-98.14107166877443!3d19.413629374537322!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85cfdfb25c44ce65%3A0x9a291603cad56209!2sPARISINA!5e0!3m2!1ses-419!2smx!4v1522123320907" width="400" height="300" frameborder="0" style="border:0" allowfullscreen></iframe>
 			</div>
 		</div>
 	</div>
