@@ -65,6 +65,10 @@ else {
                     <label>Código de Barras: </label>
                     <input type="number" id="inputCB" name="inputCB" class="form-control" value="<?= $rowGetProduct['codigo_barras']; ?>">
                 </div>
+                <div class="form-group">
+                    <label>Código SAT: </label>
+                    <input type="text" id="inputSAT" name="inputSAT" class="form-control" value="<?= $rowGetProduct['codigo_sat']; ?>">
+                </div>
                 <div class="row">
                     <div class="col-sm-2">
                         <label>Imagen actual</label>
