@@ -57,7 +57,7 @@ if ($resGetCategories->num_rows > 0) {
                 <input type="hidden" name="idStore" value="<?= $idStore; ?>">
                 <input type="hidden" name="idUser" value="<?= $idUser; ?>"> 
                 <div class="cobrar row">
-                    <div class="form-group col-xs-3">
+                    <div class="form-group col-xs-2">
                         <label>Total:</label></br>
                         <input type="text" id="inputTotal" name="inputTotal" readonly step=0.01 class="form-control col-xs-12" >
                     </div>
@@ -81,6 +81,10 @@ if ($resGetCategories->num_rows > 0) {
                     <div class="form-group col-xs-2">
                         <label>Cotizar:</label></br>
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModalAdd"><i class="fa fa-money" style="font-size: 2.2rem;"></i></button>
+                    </div>
+                    <div class="form-group col-xs-2">
+                        <label>Cotizar(SAT):</label></br>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModalSat"><i class="fa fa-money" style="font-size: 2.2rem;"></i></button>
                     </div>
                 </div>
                 <div class="cobrar row">
@@ -170,6 +174,38 @@ if ($resGetCategories->num_rows > 0) {
                             <div class="modal-footer">
                                 <!-- <button type="submit" class="btn btn-success" dir="controllers/set_price.php" id="cotizar">Cotizar</button> -->
                                 <input type="submit" id="cotizar" dir="controllers/set_price.php" class="btn btn-primary">
+                            </div> 
+                            <!-- </form> -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal Cotización SAT -->
+                <div class="modal fade" id="myModalSat" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title" id="myModalLabel">Nuevo Cliente</h4>
+                            </div>
+                            <div class="error"></div>
+                            <div class="modal-body">
+                                <input type="hidden" name="userId" value="<?= $userId; ?>" >
+                                <div class="form-group">
+                                    <label>Nombre</label>
+                                    <input type="text" id="inputNombre" name="inputNombre" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label>Dirección</label>
+                                    <input type="text" id="inputDir" name="inputDir" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label>Teléfono</label>
+                                    <input type="number" id="inputTel" name="inputTel" class="form-control">
+                                </div>  
+                            </div>
+                            <div class="modal-footer">
+                                <input type="submit" id="cotizar" dir="controllers/set_price_sat.php" class="btn btn-primary">
                             </div> 
                             <!-- </form> -->
                         </div>

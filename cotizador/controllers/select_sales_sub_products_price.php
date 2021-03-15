@@ -17,21 +17,69 @@ $idStore = $_POST['idStore'];
 
 if ($_POST['tarea'] == "catProduct"){
     if ($idPerfil == 3){//vendedor
-        $sqlGetProducts = "SELECT $tProduct.img, $tProduct.id, $tProduct.nombre, "
-                . "$tProduct.pdf, $tProduct.descripcion, $tProduct.precio_publico as precio "
-                . "FROM $tProduct, $tStock WHERE $tStock.tienda_id='$idStore' AND  "
-                . "$tStock.producto_id=$tProduct.id AND $tProduct.categoria_id='$category_id' AND "
-                . "$tProduct.activo='1' ORDER BY $tProduct.nombre ";
+        $sqlGetProducts = "
+            SELECT
+                productos.id,
+                productos.img,
+                productos.nombre,
+                productos.pdf,
+                productos.descripcion,
+                productos.precio_publico AS precio,
+                almacenes.cantidad
+            FROM productos
+                INNER JOIN almacenes ON productos.id = almacenes.producto_id
+            WHERE productos.activo = 1
+                AND productos.categoria_id = '$category_id'
+                AND almacenes.tienda_id = '$idStore'
+            ORDER BY productos.nombre
+        ";
+        // $sqlGetProducts = "SELECT $tProduct.img, $tProduct.id, $tProduct.nombre, "
+                // . "$tProduct.pdf, $tProduct.descripcion, $tProduct.precio_publico as precio "
+                // . "FROM $tProduct, $tStock WHERE $tStock.tienda_id='$idStore' AND  "
+                // . "$tStock.producto_id=$tProduct.id AND $tProduct.categoria_id='$category_id' AND "
+                // . "$tProduct.activo='1' ORDER BY $tProduct.nombre ";
     }else if ($idPerfil == 2 ){//cotizador
-        $sqlGetProducts = "SELECT $tProduct.img, $tProduct.id, $tProduct.nombre, "
-                . "$tProduct.pdf, $tProduct.descripcion, $tProduct.precio_cotizador as precio "
-                . "FROM $tProduct WHERE $tProduct.categoria_id='$category_id' AND "
-                . "$tProduct.activo='1' ORDER BY $tProduct.nombre ";
+        $sqlGetProducts = "
+            SELECT
+                productos.id,
+                productos.img,
+                productos.nombre,
+                productos.pdf,
+                productos.descripcion,
+                productos.precio_cotizador AS precio,
+                almacenes.cantidad
+            FROM productos
+                INNER JOIN almacenes ON productos.id = almacenes.producto_id
+            WHERE productos.activo = 1
+                AND productos.categoria_id = '$category_id'
+                AND almacenes.tienda_id = '$idStore'
+            ORDER BY productos.nombre
+        ";
+        // $sqlGetProducts = "SELECT $tProduct.img, $tProduct.id, $tProduct.nombre, "
+        //         . "$tProduct.pdf, $tProduct.descripcion, $tProduct.precio_cotizador as precio "
+        //         . "FROM $tProduct WHERE $tProduct.categoria_id='$category_id' AND "
+        //         . "$tProduct.activo='1' ORDER BY $tProduct.nombre ";
     }else{
-        $sqlGetProducts = "SELECT $tProduct.img, $tProduct.id, $tProduct.nombre, $tProduct.pdf, "
-                . "$tProduct.descripcion, $tProduct.precio_publico as precio "
-                . "FROM $tProduct WHERE $tProduct.categoria_id='$category_id' AND $tProduct.activo='1' "
-                . "ORDER BY $tProduct.nombre "; 
+        $sqlGetProducts = "
+            SELECT
+                productos.id,
+                productos.img,
+                productos.nombre,
+                productos.pdf,
+                productos.descripcion,
+                productos.precio_publico AS precio,
+                almacenes.cantidad
+            FROM productos
+                INNER JOIN almacenes ON productos.id = almacenes.producto_id
+            WHERE productos.activo = 1
+                AND productos.categoria_id = '$category_id'
+                AND almacenes.tienda_id = '$idStore'
+            ORDER BY productos.nombre
+        ";
+        // $sqlGetProducts = "SELECT $tProduct.img, $tProduct.id, $tProduct.nombre, $tProduct.pdf, "
+        //         . "$tProduct.descripcion, $tProduct.precio_publico as precio "
+        //         . "FROM $tProduct WHERE $tProduct.categoria_id='$category_id' AND $tProduct.activo='1' "
+        //         . "ORDER BY $tProduct.nombre "; 
     }
 }else
 //$sqlGetProducts="SELECT * FROM $tProduct WHERE subcategoria_id='$category_id' AND activo='1' ";
@@ -53,6 +101,7 @@ if ($resGetProducts->num_rows > 0) {
                 . '<p><b>' . $rowGetProducts['nombre'] . '</b></p>'
                 . '<p>' . $rowGetProducts['descripcion'] . '<br>'
                 . '<b>$ ' . $rowGetProducts['precio'] . '</b></p>'
+                . '<p>Existencias: <b>' . $rowGetProducts['cantidad'] . '</b></p>'
                 . '<a href="./uploads/' . $rowGetProducts['pdf'] . '" target="_blank">Informe Técnico</a>'
                 . '</div>';
         $i++;

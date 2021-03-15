@@ -4,14 +4,11 @@
     
     $store = $_GET['idStore'];
     $category = $_GET['inputCategory'];
-    //echo $store.'--'.$sellers.'--'.$month.'--'.$week;
+    $sqlWhereCategory = "";
+    if( $category != "0" ) 
+        $sqlWhereCategory = " AND productos.categoria_id='$category' ";
     
-    $sqlGetInfoStock = "SELECT producto_id as id, updated, cantidad, "
-            . "(SELECT nombre FROM $tStore WHERE id=$tStock.tienda_id) as store, "
-            . "(SELECT categoria_id FROM $tProduct WHERE id=$tStock.producto_id) as category2 "
-            . "FROM $tStock WHERE tienda_id='$store' ORDER BY category2 ";
-    
-          //fpdf
+    //fpdf
     require('../fpdf/fpdf.php');
     class PDF extends FPDF{
     // Cabecera de página
@@ -21,14 +18,14 @@
         // Movernos a la derecha
         $this->Cell(1,1);
         // Título
-        $this->Cell(12,7,'#',1,0,'C');
-        $this->Cell(80,7,'Producto',1,0,'C');
-        $this->Cell(30,7,utf8_decode('Categoría'),1,0,'C');
-        $this->Cell(15,7,'C.U.',1,0,'C');
-        $this->Cell(15,7,'Cant.',1,0,'C');
-        $this->Cell(15,7,'C.F.',1,0,'C');
-        $this->Cell(50,7,'Tienda',1,0,'C');
-        $this->Cell(60,7,utf8_decode('Fecha de modificación'),1,0,'C');  								
+        $this->Cell( 12, 7, 'ID', 1, 0, 'C' );
+        $this->Cell( 80, 7, 'Producto', 1, 0, 'C' );
+        $this->Cell( 30, 7, utf8_decode('Categoría'), 1, 0, 'C' );
+        $this->Cell( 15, 7, 'C.U.', 1, 0, 'C' );
+        $this->Cell( 15, 7, 'Cant.', 1, 0, 'C' );
+        $this->Cell( 15, 7, 'C.F.', 1, 0, 'C' );
+        $this->Cell( 50, 7, 'Tienda', 1, 0, 'C' );
+        $this->Cell( 60, 7, utf8_decode('Fecha de modificación'), 1, 0, 'C' );  								
         // Salto de línea
         $this->Ln(9);
       }
@@ -39,7 +36,8 @@
         // Arial italic 8
         $this->SetFont('Arial','I',8);
         // Número de página
-        $this->Cell(0,10,'Page '.$this->PageNo().'/{nb}',0,0,'C');
+        $this->Cell( 100, 10, 'Page '.$this->PageNo().'/{nb}', 0, 0, 'C' );
+        $this->Cell( 80, 10, 'Fecha: ' . date("Y-m-d H:i:s"), 0, 0, 'C' );
       }
     }//Fin class PDF
     // Creación del objeto de la clase heredada
@@ -49,38 +47,44 @@
     $pdf->SetFont('Times','',8);
     
     //echo $sqlGetInfoSale.'<br>';
-    $resGetInfoStock=$con->query($sqlGetInfoStock);
-    $optReport='';
-    if($resGetInfoStock->num_rows > 0){
-        $i=1;
-        $cantT=0;
-        $costoFT=0;
-        while($rowGetInfoStock = $resGetInfoStock->fetch_assoc()){
-            $idInfoSale=$rowGetInfoStock['id'];
-            $sqlGetProductSale="SELECT nombre, precio_franquicia as precio, (SELECT nombre FROM $tCategory WHERE id=$tProduct.categoria_id) as categoria FROM $tProduct WHERE id='$idInfoSale' ";
-            if($category!="0") $sqlGetProductSale.=" AND categoria_id='$category' ";
-            $resGetProductSale=$con->query($sqlGetProductSale);
-            while($rowGetProductSale = $resGetProductSale->fetch_assoc()){
-                $costoF=$rowGetInfoStock['cantidad']*$rowGetProductSale['precio'];
-                $pdf->Cell(12,7,$i,'B',0,'C');
-                $pdf->Cell(80,7,utf8_decode($rowGetProductSale['nombre']),'B',0,'C');
-                $pdf->Cell(30,7,utf8_decode($rowGetProductSale['categoria']),'B',0,'C');
-                $pdf->Cell(15,7,'$'.$rowGetProductSale['precio'],'B',0,'C');
-                $pdf->Cell(15,7,$rowGetInfoStock['cantidad'],'B',0,'C');
-                $pdf->Cell(15,7,'$'.$costoF,'B',0,'C');
-                $pdf->Cell(50,7,utf8_decode($rowGetInfoStock['store']),'B',0,'C');
-                $pdf->Cell(60,7,$rowGetInfoStock['updated'],'B',1,'C');
-                $i++;
-                $cantT+=$rowGetInfoStock['cantidad'];
-                $costoFT+=$costoF;
-            }
+    $cantT = 0;
+    $costoFT = 0;
+    $sqlGetInfoAlmacen = " SELECT "
+        . "     productos.id AS idProd,"
+        . "     productos.nombre AS producto,"
+        . "     categorias.nombre AS categoria,"
+        . "     productos.precio_franquicia AS precio,"
+        . "     almacenes.cantidad AS cantidad,"
+        . "     tiendas.nombre AS tienda,"
+        . "     almacenes.updated AS fm "
+        . " FROM almacenes"
+        . " INNER JOIN productos ON almacenes.producto_id = productos.id "
+        . " INNER JOIN categorias ON productos.categoria_id = categorias.id "
+        . " INNER JOIN tiendas ON almacenes.tienda_id = tiendas.id "
+        . " WHERE productos.activo = 1"
+        . "     AND almacenes.tienda_id = '$store' "
+        . $sqlWhereCategory
+        . " ORDER BY productos.id";
+    $resGetInfoAlmacen = $con->query( $sqlGetInfoAlmacen );
+    if( $resGetInfoAlmacen->num_rows > 0 ){
+        while($rowGetInfoStock = $resGetInfoAlmacen->fetch_assoc()){
+            $costoF=$rowGetInfoStock['cantidad']*$rowGetInfoStock['precio'];
+            $pdf->Cell( 12, 7, $rowGetInfoStock['idProd'], 'B', 0, 'C' );
+            $pdf->Cell( 80, 7, utf8_decode($rowGetInfoStock['producto']), 'B', 0, 'C' );
+            $pdf->Cell( 30, 7, utf8_decode($rowGetInfoStock['categoria']), 'B', 0, 'C' );
+            $pdf->Cell( 15, 7, '$'.$rowGetInfoStock['precio'], 'B', 0, 'C' );
+            $pdf->Cell( 15, 7, $rowGetInfoStock['cantidad'], 'B', 0, 'C' );
+            $pdf->Cell( 15, 7, '$'.$costoF, 'B', 0, 'C' );
+            $pdf->Cell( 50, 7, utf8_decode($rowGetInfoStock['tienda']), 'B', 0, 'C' );
+            $pdf->Cell( 60, 7, $rowGetInfoStock['fm'], 'B', 1, 'C' );
+            $cantT += $rowGetInfoStock['cantidad'];
+            $costoFT += $costoF;
         }
-        $pdf->Cell(94,7,'','B',0,'C');
-        $pdf->Cell(183,7,'Cantidad: '.$cantT.utf8_decode('   Dinero en almacén: $').$costoFT,'B',1);
- 
     }else{
-        $pdf->Cell(194, 7, 'No hay ventas.', 'B', 0, 'C');
+        $pdf->Cell( 194, 7, 'No hay productos en éste almacén.', 'B', 0, 'C');
     }
-
+    $pdf->Cell( 94, 7, '', 'B', 0, 'C' );
+    $pdf->Cell( 183, 7, 'Cantidad: '.$cantT.utf8_decode('   Dinero en almacén: $').$costoFT, 'B', 1 );
+ 
     $pdf->Output();
 ?>

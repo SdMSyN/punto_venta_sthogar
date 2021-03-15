@@ -73,6 +73,10 @@ else {
                                 <label>Código de barras</label>
                                 <input type="number" id="inputCB" name="inputCB" class="form-control">
                             </div>
+                            <div class="form-group">
+                                <label>Código SAT</label>
+                                <input type="text" id="inputSAT" name="inputSAT" class="form-control">
+                            </div>
                             <div class="form-group">           
                                 <label for="exampleInputFile">Imagen</label>
                                 <input type="file" id="inputImg" name="inputImg" >
@@ -144,6 +148,7 @@ else {
                 <th class="t-head"><span title="precio">Precio Franquicia</span></th>
                 <th class="t-head"><span title="precio">Precio Cotizador</span></th>
                 <th class="t-head"><span title="precio">Precio Público</span></th>
+                <th class="t-head"><span title="sat">Código SAT</span></th>
                 <th class="t-head"><span title="activo">Estatus</span></th>
                 <th class="t-head">Modificar</th>
                 <th class="t-head-last">Eliminar</th>

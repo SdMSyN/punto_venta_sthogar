@@ -11,6 +11,7 @@ $precioCot = $_POST['inputPrecioCot'];
 $precioPub = $_POST['inputPrecioPub'];
 $cantMin = $_POST['inputCantMin'];
 $codBar = $_POST['inputCB'];
+$codSat = $_POST['inputSAT'];
 $descrip = $_POST['inputDesc'];
 $categoria = $_POST['inputCategoria'];
 //$subCategoria=$_POST['inputSubCategoria'];
@@ -50,11 +51,11 @@ if ($_FILES["inputImg"]["error"] > 0 || $_FILES["InputFile"]["error"] > 0) {
 if ($ban) {
     $sqlInsertProduct = "INSERT INTO $tProduct (nombre, precio_raiz, precio_franquicia, "
             . "precio_cotizador, precio_publico, cant_minima, img, pdf, descripcion, "
-            . "activo, codigo_barras, categoria_id, subcategoria_id, created, updated, "
+            . "activo, codigo_barras, categoria_id, subcategoria_id, codigo_sat, created, updated, "
             . "created_by_user_id, updated_by_user_id) "
             . "VALUES ('$nombre', '$precioRoot', '$precioFranq', '$precioCot', '$precioPub', "
             . "'$cantMin', '$docName', '$fileName', '$descrip', '1', '$codBar', '$categoria', "
-            . "'0', '$dateNow', '$dateNow', '$userId', '$userId' ) ";
+            . "'0', '$codSat', '$dateNow', '$dateNow', '$userId', '$userId' ) ";
     if ($con->query($sqlInsertProduct) === TRUE) {
         echo "true";
     } else {

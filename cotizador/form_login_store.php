@@ -87,7 +87,7 @@ while ($rowGetStores = $resGetStores->fetch_assoc()) {
           url: "controllers/login_store.php",
           data: $('form#formLoginStore').serialize(),
           success: function (msg) {
-            //alert(msg);
+            // alert(msg);
             if (msg == "true") {
               location.href = "form_price.php";
             } else {

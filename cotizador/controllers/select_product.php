@@ -16,7 +16,8 @@
                 . "$tProduct.pdf as pdf, "
                 . "$tEst.nombre as activoN, "
                 . "$tProduct.activo as activo, "
-                . "$tCategory.id as categoryId "
+                . "$tCategory.id as categoryId, "
+                . "$tProduct.codigo_sat AS sat "
                 . "FROM $tProduct "
                 . "INNER JOIN $tCategory ON $tProduct.categoria_id=$tCategory.id "
                 //. "INNER JOIN $tSubCategory ON $tProduct.subcategoria_id=$tSubCategory.id "
@@ -51,6 +52,7 @@
             $datos .= '<td>'.$rowGetProducts['precioFranq'].'</td>';
             $datos .= '<td>'.$rowGetProducts['precioCot'].'</td>';
             $datos .= '<td>'.$rowGetProducts['precioPub'].'</td>';
+            $datos .= '<td>'.$rowGetProducts['sat'].'</td>';
             $datos .= '<td>'.$rowGetProducts['activoN'].'</td>';
             $datos .= '<td><a href="form_update_product.php?id=' . $rowGetProducts['id'] . '" target="_blanck">Modificar</a></td>';
             if($rowGetProducts['activo']==0)
