@@ -13,12 +13,12 @@ else {
     $userId = $_SESSION['userId'];
 
     /* obtenemos el producto */
-    $sqlGetProduct = "SELECT * FROM $tProduct WHERE id='$productId' ";
+    $sqlGetProduct = "SELECT * FROM productos WHERE id='$productId' ";
     $resGetProduct = $con->query($sqlGetProduct);
     $rowGetProduct = $resGetProduct->fetch_assoc();
 
     /* Obtenemos las categorias */
-    $sqlGetCategories = "SELECT id, nombre FROM $tCategory ";
+    $sqlGetCategories = "SELECT id, nombre FROM categorias ";
     $resGetCategories = $con->query($sqlGetCategories);
     $optCategories = '<option></option>';
     while ($rowGetCategories = $resGetCategories->fetch_assoc()) {
@@ -56,6 +56,10 @@ else {
                 <div class="form-group">
                     <label>Precio público: </label>
                     <input type="number" step="any" id="inputPrecioPub" name="inputPrecioPub" class="form-control" value="<?= $rowGetProduct['precio_publico']; ?>">
+                </div>
+                <div class="form-group">
+                    <label>Precio mayoreo: </label>
+                    <input type="number" step="any" id="inputPrecioMay" name="inputPrecioMay" class="form-control" value="<?= $rowGetProduct['precio_mayoreo']; ?>">
                 </div>
                 <div class="form-group">
                     <label>Cantidad Mínima en Almacen: </label>

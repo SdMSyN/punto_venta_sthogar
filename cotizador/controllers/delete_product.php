@@ -6,7 +6,7 @@
     
     //$sqlDeleteUser="DELETE FROM $tUser WHERE id='$idUser' ";
     if($_POST['est']==1)
-        $sqlDeleteProduct="UPDATE $tProduct SET activo='0' WHERE id='$idProduct' ";
+        $sqlDeleteProduct="UPDATE $tProduct SET activo='2' WHERE id='$idProduct' ";
     else
         $sqlDeleteProduct="UPDATE $tProduct SET activo='1' WHERE id='$idProduct' ";
     if ($con->query($sqlDeleteProduct) === TRUE) {

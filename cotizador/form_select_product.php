@@ -12,7 +12,7 @@ else {
     $userId = $_SESSION['userId'];
 
     /* Obtenemos las categorias */
-    $sqlGetCategories = "SELECT id, nombre FROM $tCategory ";
+    $sqlGetCategories = "SELECT id, nombre FROM categorias ";
     $resGetCategories = $con->query($sqlGetCategories);
     $optCategories = '<option></option>';
     while ($rowGetCategories = $resGetCategories->fetch_assoc()) {
@@ -66,6 +66,10 @@ else {
                                 <input type="number" step="any" id="inputPrecioPub" name="inputPrecioPub" class="form-control">
                             </div>
                             <div class="form-group">
+                                <label>Precio mayorista (1.45)</label>
+                                <input type="number" step="any" id="inputPrecioMay" name="inputPrecioMay" class="form-control" readonly="true">
+                            </div>
+                            <div class="form-group">
                                 <label>Cantidad mínima en almacen</label>
                                 <input type="number" step="any" id="inputCantMin" name="inputCantMin" class="form-control" value="1">
                             </div>
@@ -102,13 +106,6 @@ else {
                               <select id="inputSubCategoria" name="inputSubCategoria" class="form-control"></select>
                             </div> -->
 
-                            <!--
-                            <div class="form-group">
-                              <label>
-                                <input type="checkbox" id="inputPanFrio" name="inputPanFrio" >Pan frío
-                              </label>
-                            </div>
-                            -->
                             <input type="hidden" id="inputPanFrio" name="inputPanFrio" >
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
@@ -148,15 +145,14 @@ else {
                 <th class="t-head"><span title="precio">Precio Franquicia</span></th>
                 <th class="t-head"><span title="precio">Precio Cotizador</span></th>
                 <th class="t-head"><span title="precio">Precio Público</span></th>
+                <th class="t-head"><span title="precio">Precio Mayorista</span></th>
                 <th class="t-head"><span title="sat">Código SAT</span></th>
                 <th class="t-head"><span title="activo">Estatus</span></th>
                 <th class="t-head">Modificar</th>
                 <th class="t-head-last">Eliminar</th>
             </tr>
         </thead>
-        <tbody>
-
-        </tbody>    
+        <tbody></tbody>    
     </table>
 
     </div><!-- fin container -->
@@ -171,9 +167,40 @@ else {
                     data: $("#frm_filtro").serialize() + ordenar,
                     url: "controllers/select_product.php?action=listar",
                     success: function (msg) {
-                        //$("#data tbody").empty();
-                        $("#data tbody").html(msg);
-                        //console.log(msg);
+                        let data = jQuery.parseJSON(msg);
+                        console.log( data );
+                        if(data.error == 0){
+                            $("#data tbody").html("");
+                            $.each(data.dataRes, function(i, item){
+                                let newRow = `<tr>
+                                        <td>${data.dataRes[i].id}</td>
+                                        <td>${data.dataRes[i].img}</td>
+                                        <td><a href="<?=$rutaImgProd?>${data.dataRes[i].pdf}">Descargar</a></td>
+                                        <td>${data.dataRes[i].nameProd}</td>
+                                        <td>${data.dataRes[i].nameCat}</td>
+                                        <td>${data.dataRes[i].precioRoot}</td>
+                                        <td>${data.dataRes[i].precioFranq}</td>
+                                        <td>${data.dataRes[i].precioCot}</td>
+                                        <td>${data.dataRes[i].precioPub}</td>
+                                        <td>${data.dataRes[i].precioMay}</td>
+                                        <td>${data.dataRes[i].sat}</td>
+                                        <td>${data.dataRes[i].activoN}</td>
+                                        <td><a href="form_update_product.php?id=${data.dataRes[i].id}" target="_blanck">Modificar</a></td>
+                                        <td>
+                                            <a class=${data.dataRes[i].activo == 2 ? "activate" : "delete"} data-id="${data.dataRes[i].id}">
+                                                ${data.dataRes[i].activo == 2 ? 'Dar de alta' : 'Dar de baja'}
+                                            </a>
+                                        </td>
+                                    </tr>`;
+                                $(newRow).appendTo("#data tbody");
+                           });
+                           
+                        }else{
+                            let newRow = `<tr>
+                                            <td></td><td>'+data.msgErr+'</td>
+                                          </tr>`;
+                            $("#data tbody").html(newRow);
+                        }
                     }
                 });
             }
@@ -214,9 +241,12 @@ else {
                 precioCot = Number(precioCot.toFixed(2));
                 var precioPub = precioRoot * 2.3;
                 precioPub = Number(precioPub.toFixed(2));
+                let precioMay = precioRoot * 1.45;
+                precioMay = Number( precioMay.toFixed(2) );
                 $("#inputPrecioFranq").val(precioFranq);
                 $("#inputPrecioCot").val(precioCot);
                 $("#inputPrecioPub").val(precioPub);
+                $("#inputPrecioMay").val( precioMay );
             })
 
             $("#data tbody").on("click", ".delete", function () {
@@ -349,16 +379,14 @@ else {
                     processData: false, //Evitamos que JQuery procese los datos, daría error
                     contentType: false, //No especificamos ningún tipo de dato
                     type: 'POST',
-                    beforeSend: function () {
-                        //$('#exampleModalLabel').append("Loading...");
-                    },
                     success: function (resultado) {
-                        //alert(resultado);
-                        if (resultado == "true") {
+                        let data = jQuery.parseJSON(resultado);
+                        console.log( data );
+                        if ( data.error == 0 ) {
                             $('#form-content').modal('hide');
                             location.reload();
                         } else {
-                            $('.error').html(resultado);
+                            $('.error').html( data.msgErr );
                         }
                     }
                 });
