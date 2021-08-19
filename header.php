@@ -7,13 +7,18 @@
 
 		<!-- Bootstrap -->
 		<link href="assets/css/application.css" rel="stylesheet">
+
+		
 		
 		<!-- jQuery -->
 		<script src="assets/js/jquery.min.js"></script>
 		<script src="assets/js/bootstrap.min.js"></script>
 		
-			<script src="assets/js/jquery.validate.min.js"></script>
-			<script src="assets/js/jquery-validate.bootstrap-tooltip.min.js"></script>
+		<!-- jValidate -->
+		<script src="assets/js/jquery.validate.min.js"></script>
+		<script src="assets/js/jquery-validate.bootstrap-tooltip.min.js"></script>
+
+		
 			
 		<!--	
 		<script src="assets/js/additional-methods.min.js"></script>

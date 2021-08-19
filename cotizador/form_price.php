@@ -20,7 +20,7 @@ if (isset($_SESSION['sessU'])) {//si se ha iniciado sesión
     else
         $idStore = 0;
     //obtener mensajes del integrador
-    $sqlGetMess = "SELECT * FROM $tUsersMess WHERE usuario_id='$idUser' ORDER BY creado DESC LIMIT 1";
+    $sqlGetMess = "SELECT * FROM usuarios_mensajes WHERE usuario_id='$idUser' ORDER BY creado DESC LIMIT 1";
     $resGetMess = $con->query($sqlGetMess);
     if ($resGetMess->num_rows > 0) {
         $rowGetMess = $resGetMess->fetch_assoc();
