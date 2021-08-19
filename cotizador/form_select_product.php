@@ -18,6 +18,20 @@ else {
     while ($rowGetCategories = $resGetCategories->fetch_assoc()) {
         $optCategories .= '<option value="' . $rowGetCategories['id'] . '">' . $rowGetCategories['nombre'] . '</option>';
     }
+
+    // Obtenemos precio mayoreo actual
+    $sqlGetPrecioMay = "SELECT 
+                            id_baseCtConfig, 
+                            config, 
+                            valor 
+                        FROM basectconfig 
+                        WHERE basectconfig.activo = 1
+                            AND basectconfig.config = 'PRECIO_MAYOREO' ";
+    $resGetPrecioMay = $con->query($sqlGetPrecioMay);
+    $rowGetPrecioMay = $resGetPrecioMay->fetch_assoc();
+    $precioMay = $rowGetPrecioMay['valor'];
+    $idConfig  = $rowGetPrecioMay['id_baseCtConfig'];
+
     ?>
 
     <!-- Cambio dinamico -->
@@ -241,7 +255,7 @@ else {
                 precioCot = Number(precioCot.toFixed(2));
                 var precioPub = precioRoot * 2.3;
                 precioPub = Number(precioPub.toFixed(2));
-                let precioMay = precioRoot * 1.45;
+                let precioMay = precioRoot * <?= $precioMay; ?>;
                 precioMay = Number( precioMay.toFixed(2) );
                 $("#inputPrecioFranq").val(precioFranq);
                 $("#inputPrecioCot").val(precioCot);
