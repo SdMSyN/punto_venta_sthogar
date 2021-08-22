@@ -130,7 +130,10 @@
             $cambioDesc = $_POST['inputCambio2'];
             $descuentoDesc = $_POST['inputDesc'];
             $cantDesc = $_POST['inputCantDesc'];
-            $idClient = (isset($_POST['inputIdClient'])) ? $_POST['inputIdClient'] : $idClient = 0;
+            $mayoreo = ( isset( $_POST['mayoreo'] ) ) ? $_POST['mayoreo'] : false;
+            $linkBack = ( $mayoreo ) ? 'form_price_may.php' : 'form_price.php';
+            $idClient = (isset($_POST['inputIdClient'] ) && $_POST['inputIdClient'] != "" ) ? $_POST['inputIdClient'] : $idClient = 0;
+
             if ($idClient != 0) {
                 $idClient2 = $idClient;
                 //Obtenemos información del cliente
@@ -236,7 +239,7 @@
             $cad .= '<p class="text-center" style="font-zie: 10px">Sistema Punto de Venta por <br>www.solucionesynegocios.com.mx</p>';
             $cad .= '</div><div class="col-sm-10"></div>'; //Fin col-sm-2
             $cad .= '</div></div>'; //Fin área imprime -- Fin row
-            $cad .= '<div style="padding-left: 1rem;"><p><a href="javascript:void(0)" id="imprime" class="btn btn-success">Imprime <span class="glyphicon glyphicon-print"></span></a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="../form_price.php" class="btn btn-default">Atrás</a></p></div>';
+            $cad .= '<div style="padding-left: 1rem;"><p><a href="javascript:void(0)" id="imprime" class="btn btn-success">Imprime <span class="glyphicon glyphicon-print"></span></a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="../' . $linkBack . '" class="btn btn-default">Atrás</a></p></div>';
 
             echo $cad;
             ?>
@@ -245,7 +248,8 @@
                 $(document).ready(function () {
                     $('#imprime').click(function () {
                         $("div#myPrintArea").printArea();
-                        setTimeout("location.href='../form_price.php'", 1000);
+                        let link = '../' + <?= $linkBack; ?>;
+                        setTimeout("location.href= '"+ link +"'", 1000);
                     });
                 });
             </script>

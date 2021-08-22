@@ -4,16 +4,19 @@
     
     $product_id=$_POST['idProduct'];
     $idPerfil = $_POST['idPerfil'];
+    $mayoreo = isset( $_POST['mayoreo'] ) ? $_POST['mayoreo'] : false;
     
-	if ($idPerfil == 0 || $idPerfil == 3)
-            $sqlGetProduct="SELECT id, nombre, precio_publico as precio FROM $tProduct WHERE id='$product_id' ";
-        else if ($idPerfil == 2 )
-            $sqlGetProduct="SELECT id, nombre, precio_cotizador as precio FROM $tProduct WHERE id='$product_id' ";
+    if( $mayoreo )
+        $sqlGetProduct = "SELECT id, nombre, precio_mayoreo as precio FROM productos WHERE id='$product_id'";
+	else if ($idPerfil == 0 || $idPerfil == 3)
+        $sqlGetProduct="SELECT id, nombre, precio_publico as precio FROM productos WHERE id='$product_id' ";
+    else if ($idPerfil == 2 )
+        $sqlGetProduct="SELECT id, nombre, precio_cotizador as precio FROM productos WHERE id='$product_id' ";
 	else
-            $sqlGetProduct="SELECT id, nombre, precio_cotizador as precio FROM $tProduct WHERE id='$product_id' ";
+        $sqlGetProduct="SELECT id, nombre, precio_cotizador as precio FROM productos WHERE id='$product_id' ";
     //echo $sqlGetProduct;
     $resGetProduct = $con->query($sqlGetProduct);
-    $optProduct='';
+    $optProduct = '';
     if($resGetProduct->num_rows > 0){
         while($rowGetProduct = $resGetProduct->fetch_assoc()){
             $optProduct .= '<tr>';

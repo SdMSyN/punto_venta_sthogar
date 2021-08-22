@@ -78,14 +78,7 @@ if ($resGetCategories->num_rows > 0) {
                             <input type="submit" id="cobrar" value="Cobrar" dir="controllers/set_sale.php" class="btn btn-primary" disabled>
                         </div>
                     <?php }//end if vendedor  ?>
-                    <div class="form-group col-xs-2">
-                        <label>Cotizar:</label></br>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModalAdd"><i class="fa fa-money" style="font-size: 2.2rem;"></i></button>
-                    </div>
-                    <div class="form-group col-xs-2">
-                        <label>Cotizar(SAT):</label></br>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModalSat"><i class="fa fa-money" style="font-size: 2.2rem;"></i></button>
-                    </div>
+                    
                 </div>
                 <div class="cobrar row">
                 <?php if (isset($_SESSION['sessU']) && ($_SESSION['perfil'] == 3 || $_SESSION['perfil'] == 2 || $_SESSION['perfil'] == 1) ) { ?>
@@ -129,6 +122,21 @@ if ($resGetCategories->num_rows > 0) {
                     </div> -->
                 <?php }//end if vendedor  ?>
                 </div><!-- /. cobrar row -->
+                <div class="cobrar row">
+                    <div class="form-group col-xs-3">
+                        <label>Cotizar:</label></br>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModalAdd"><i class="fa fa-money" style="font-size: 2.2rem;"></i></button>
+                    </div>
+                    <div class="form-group col-xs-3">
+                        <label>Cotizar(SAT):</label></br>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModalSat"><i class="fa fa-money" style="font-size: 2.2rem;"></i></button>
+                    </div>
+                    <div class="form-group col-xs-5">
+                        <label>Cotizar( Mayoreo ):</label></br>
+                        <a href="form_price_may.php" class="btn btn-primary"><i class="fa fa-money" style="font-size: 2.2rem;"></i></a>
+                        <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModalSat"><i class="fa fa-money" style="font-size: 2.2rem;"></i></button> -->
+                    </div>
+                </div>
                 <div class="line"></div>
                 <div class="mygrid-wrapper-div">
                     <table id="dataTicket" class="table table-striped">
@@ -236,35 +244,7 @@ if ($resGetCategories->num_rows > 0) {
                 </div><!-- end modalClient -->
             </form>
         </div>
-        <div class="teclado text-center">
-            <form id="formTeclado" method="POST" class="form-inline">
-                <div class="form-group">
-                    <input type="text" class="typeahead tt-query" autocomplete="off" spellcheck="false" placeholder="Busca el producto" id="inputCod" name="inputCod">
-                    <!-- <input type="hidden" name="idStore" value="<?= $idStore; ?>" > -->
-                </div>
-                <button type="submit" class="btn btn-success"><i class="fa fa-list"></i> Agregar</button>
-                <div class="errorSearchProduct"></div>
-            </form>
-            <div id="teclado_numerico_2" class="text-center">
-                <div class="numeric-form-sales">
-                    <span class="btn btn-info btn-numeric-form" onclick="teclado(7)">7</span>
-                    <span class="btn btn-info btn-numeric-form" onclick="teclado(8)">8</span>
-                    <span class="btn btn-info btn-numeric-form" onclick="teclado(9)">9</span>
-                    <br>
-                    <span class="btn btn-info btn-numeric-form" onclick="teclado(4)">4</span>
-                    <span class="btn btn-info btn-numeric-form" onclick="teclado(5)">5</span>
-                    <span class="btn btn-info btn-numeric-form" onclick="teclado(6)">6</span>
-                    <br>
-                    <span class="btn btn-info btn-numeric-form" onclick="teclado(1)">1</span>
-                    <span class="btn btn-info btn-numeric-form" onclick="teclado(2)">2</span>
-                    <span class="btn btn-info btn-numeric-form" onclick="teclado(3)">3</span>
-                    <br>
-                    <span class="btn btn-default btn-numeric-form erase"><i class="fa fa-arrow-left"></i></span>
-                    <span class="btn btn-info btn-numeric-form" onclick="teclado(0)">0</span>
-                    <span class="btn btn-default btn-numeric-form" onClick="borrarTeclado()" >C</span>
-                </div>
-            </div>
-        </div>
+        
     </div> <!--  fin IZQUIERDA-->
     <div class="col-sm-7 sales sales-derecha text-center">
         <div class="titulo-crud2">
