@@ -134,6 +134,7 @@ else {
                     type: "POST",
                     url: "controllers/select_productos_mayoreo.php",
                     success: function (msg) {
+                        console.log( msg );
                         let data = jQuery.parseJSON(msg);
                         console.log( data );
                         if(data.error == 0){

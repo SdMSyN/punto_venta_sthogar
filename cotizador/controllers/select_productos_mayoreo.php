@@ -31,8 +31,8 @@
             // );
             $productos[] = [ 
                 $rowGetProducts['id'], 
-                $rowGetProducts['categoria'], 
-                $rowGetProducts['producto'], 
+                utf8_encode( $rowGetProducts['categoria'] ), 
+                utf8_encode( $rowGetProducts['producto'] ), 
                 $rowGetProducts['precioRoot'], 
                 $rowGetProducts['precioMay'], 
                 $rowGetProducts['categoryId'] 

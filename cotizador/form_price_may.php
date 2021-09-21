@@ -237,7 +237,16 @@ if ($resGetCategories->num_rows > 0) {
                 </div><!-- end modalClient -->
             </form>
         </div>
-        
+        <div class="teclado text-center">
+            <form id="formTeclado" method="POST" class="form-inline">
+                <div class="form-group">
+                    <input type="text" class="typeahead tt-query" autocomplete="off" spellcheck="false" placeholder="Busca el producto" id="inputCod" name="inputCod">
+                    <!-- <input type="hidden" name="idStore" value="<?= $idStore; ?>" > -->
+                </div>
+                <button type="submit" class="btn btn-success"><i class="fa fa-list"></i> Agregar</button>
+                <div class="errorSearchProduct"></div>
+            </form>
+        </div>
     </div> <!--  fin IZQUIERDA-->
     <div class="col-sm-7 sales sales-derecha text-center">
         <div class="titulo-crud2">
