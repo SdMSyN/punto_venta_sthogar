@@ -10,7 +10,8 @@
                     productos.nombre AS producto, 
                     categorias.nombre AS categoria, 
                     productos.precio_raiz AS precioRoot, 
-                    productos.precio_mayoreo AS precioMay,  
+                    productos.precio_mayoreo AS precioMay, 
+                    productos.precio_base AS precioBase, 
                     categorias.id AS categoryId
                 FROM productos 
                 INNER JOIN categorias ON productos.categoria_id=categorias.id ";
@@ -33,6 +34,7 @@
                 $rowGetProducts['id'], 
                 utf8_encode( $rowGetProducts['categoria'] ), 
                 utf8_encode( $rowGetProducts['producto'] ), 
+                $rowGetProducts['precioBase'], 
                 $rowGetProducts['precioRoot'], 
                 $rowGetProducts['precioMay'], 
                 $rowGetProducts['categoryId'] 

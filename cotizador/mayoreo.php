@@ -23,6 +23,19 @@ else {
     $rowGetPrecioMay = $resGetPrecioMay->fetch_assoc();
     $precioMay = $rowGetPrecioMay['valor'];
     $idConfig  = $rowGetPrecioMay['id_baseCtConfig'];
+
+    // Obtenemos valor dolar y precio base
+    $sqlGetPrecioDolar = "SELECT 
+                            id_baseCtConfig, 
+                            config, 
+                            valor 
+                        FROM basectconfig 
+                        WHERE basectconfig.activo = 1
+                            AND basectconfig.config = 'PRECIO_DOLAR' ";
+    $resGetPrecioDolar = $con->query($sqlGetPrecioDolar);
+    $rowGetPrecioDolar = $resGetPrecioDolar->fetch_assoc();
+    $precioDolar       = $rowGetPrecioDolar['valor'];
+    $idConfigDolar     = $rowGetPrecioDolar['id_baseCtConfig'];
     ?>
 
     <!-- Cambio dinamico -->
@@ -36,11 +49,18 @@ else {
             <div class="titulo-crud text-center">
                 MAYOREO 
             </div>
-            <div class="col-md-12">
-                <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#modalUpdMay">
-                    Cambiar mayoreo
-                </button>
-            </div>	  
+            <div class="row">
+                <div class="col-md-6">
+                    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#modalUpdMay">
+                        Cambiar mayoreo
+                    </button>
+                </div>	  
+                <div class="col-md-6">
+                    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#modalUpdDolar">
+                        $ Precio dolar
+                    </button>
+                </div>	  
+            </div>
         </div>
         <br>
         <!-- datatable -->
@@ -67,6 +87,39 @@ else {
                                 <span id="helpBlock" class="help-block">
                                     Al aplicar el cambio, perjudicarás a TODOS los productos del sistema. 
                                     Ya que se realizará un recálculo sobre el precio raíz para el precio mayoreo. 
+                                </span>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-primary">Actualizar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- modal precio dollar -->
+        <div class="modal fade" id="modalUpdDolar" tabindex="-1" role="dialog" aria-labellebdy="myModal" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">
+                            <span aria-hidden="true">&times;</span><span class="sr-only">Cerrar</span>
+                        </button>
+                        <h4 class="modal-title" id="exampleModalLabel">Cambiar precio Dolar</h4>
+                        <p class="msgModal"></p>
+                    </div>
+                    <form id="formUpdDolar" name="formUpdDolar">
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <input type="hidden" name="idConfig" value="<?=$idConfigDolar;?>" >
+                                <label for="inputName">Precio: </label>
+                                <input type="text" class="form-control" id="inputPrecioDolar" name="inputPrecioDolar" value="<?= $precioDolar; ?>">
+                                <span id="helpBlock" class="help-block">
+                                    Al aplicar el cambio, perjudicarás a TODOS los productos del sistema. 
+                                    Ya que se realizará un recálculo sobre el precio base para modificar: 
+                                    precio raíz, precio público, precio franquicia, precio cotizador y precio mayoreo. 
                                 </span>
                             </div>
                         </div>
@@ -115,13 +168,14 @@ else {
                     { title: "ID" },
                     { title: "Categoría" },
                     { title: "Producto" },
+                    { title: "Precio base" },
                     { title: "Precio raíz" },
                     { title: "Precio mayoreo" },
                     { title: "idCategoria" }
                 ],
                 columnDefs:[
                     { 
-                        "targets" : [5],
+                        "targets" : [6],
                         "visible" : false,
                         "searchable" : false
                     }
@@ -134,9 +188,7 @@ else {
                     type: "POST",
                     url: "controllers/select_productos_mayoreo.php",
                     success: function (msg) {
-                        console.log( msg );
                         let data = jQuery.parseJSON(msg);
-                        console.log( data );
                         if(data.error == 0){
                             dataSet = data.dataRes;
                             mainTable.clear().rows.add(dataSet).draw();
@@ -189,7 +241,55 @@ else {
                         }
                     });
                 }
-            }); // end añadir nueva materia            
+            }); // end modificar precio mayoreo     
+
+            // Modificar precio dolar y precio base de los productos
+            $('#formUpdDolar').validate({
+                rules: {
+                    inputPrecioDolar: { 
+                        required: true
+                    }
+                },
+                messages: {
+                    inputPrecioDolar: {
+                        required: "Precio dolar obligatorio"
+                    }
+                },
+                tooltip_options: {
+                    inputPrecioDolar: { 
+                        trigger  : "focus", 
+                        placement: "bottom"
+                    }
+                },
+                submitHandler: function(form){
+                    $('#loading').show();
+                    $.ajax({
+                        type: "POST",
+                        url: "controllers/update_precio_dolar.php",
+                        data: $('form#formUpdDolar').serialize(),
+                        success: function(msg){
+                            let data = jQuery.parseJSON(msg);
+                            if( data.error == 0 ){
+                                $('#loading').empty();
+                                $('#loading').append('<img src="assets/img/success.png" height="300" width="400" >');
+                                setTimeout(function () {
+                                  location.href = 'mayoreo.php';
+                                }, 1500);
+                            } else{
+                                $('.msgModal').css({color: "#FF0000"});
+                                $('.msgModal').html(data.msgErr);
+                                $('#loading').empty();
+                                $('#loading').append('<img src="assets/img/error.png" height="300" width="400" ><h2>'+data.msgErr+'</h2>');
+                                setTimeout(function (){
+                                    $('#loading').hide();
+                                }, 1500);
+                            }
+                        }, error: function(){
+                            alert("Error al actualizar precio dolar");
+                        }
+                    });
+                }
+            }); // end modificar precio mayoreo        
             
 
         });
