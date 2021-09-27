@@ -27,6 +27,33 @@ else {
         else
             $optCategories .= '<option value="' . $rowGetCategories['id'] . '">' . $rowGetCategories['nombre'] . '</option>';
     }
+
+    // Obtenemos precio mayoreo actual
+    $sqlGetPrecioMay = "SELECT 
+            id_baseCtConfig, 
+            config, 
+            valor 
+        FROM basectconfig 
+        WHERE basectconfig.activo = 1
+            AND basectconfig.config = 'PRECIO_MAYOREO' ";
+    $resGetPrecioMay = $con->query($sqlGetPrecioMay);
+    $rowGetPrecioMay = $resGetPrecioMay->fetch_assoc();
+    $precioMay = $rowGetPrecioMay['valor'];
+    $idConfig  = $rowGetPrecioMay['id_baseCtConfig'];
+
+    // Obtenemos valor del dolar
+    $sqlGetPrecioDolar = "SELECT 
+            id_baseCtConfig, 
+            config, 
+            valor 
+        FROM basectconfig 
+        WHERE basectconfig.activo = 1
+            AND basectconfig.config = 'PRECIO_DOLAR' ";
+    $resGetPrecioDolar = $con->query($sqlGetPrecioDolar);
+    $rowGetPrecioDolar = $resGetPrecioDolar->fetch_assoc();
+    $precioDolar       = $rowGetPrecioDolar['valor'];
+    $idConfigDolar     = $rowGetPrecioDolar['id_baseCtConfig'];
+
     ?>
 
     <!-- Cambio dinamico -->
@@ -41,6 +68,10 @@ else {
                     <label>Nombre: </label>
                     <input type="text" id="inputNombre" name="inputNombre" class="form-control" value="<?= $rowGetProduct['nombre']; ?>">
                 </div> 
+                <div class="form-group">
+                    <label>Precio Base en dólares (Valor Dolar = $<?= $precioDolar; ?>)</label>
+                    <input type="number" step="any" id="inputPrecioBase" name="inputPrecioBase" class="form-control" value="<?= $rowGetProduct['precio_base']; ?>">
+                </div>
                 <div class="form-group">
                     <label>Precio Raíz: </label>
                     <input type="number" step="any" id="inputPrecioR" name="inputPrecioR" class="form-control" value="<?= $rowGetProduct['precio_raiz']; ?>">
@@ -58,7 +89,7 @@ else {
                     <input type="number" step="any" id="inputPrecioPub" name="inputPrecioPub" class="form-control" value="<?= $rowGetProduct['precio_publico']; ?>">
                 </div>
                 <div class="form-group">
-                    <label>Precio mayoreo: </label>
+                    <label>Precio mayorista (<?= $precioMay; ?>)</label>
                     <input type="number" step="any" id="inputPrecioMay" name="inputPrecioMay" class="form-control" value="<?= $rowGetProduct['precio_mayoreo']; ?>">
                 </div>
                 <div class="form-group">
@@ -128,6 +159,18 @@ else {
                     //alert("No puede ser vacio");
                     $("#inputNombre").tooltip({title: "Nombre del producto obligatorio", trigger: "focus", placement: 'bottom'});
                     $("#inputNombre").tooltip('show');
+                    return false;
+                }
+                if ($("#inputPrecioBase").val() == "") {
+                    //alert("No puede ser vacio");
+                    $("#inputPrecio").tooltip({title: "Precio base del producto obligatorio", trigger: "focus", placement: 'bottom'});
+                    $("#inputPrecio").tooltip('show');
+                    return false;
+                }
+                if (!$("#inputPrecioBase").val().match(/^-?[0-9]+([\.][0-9]*)?$/)) {
+                    // inputted file path is not an image of one of the above types
+                    $("#inputPrecio").tooltip({title: "Formato de precio incorrecto", trigger: "focus", placement: 'bottom'});
+                    $("#inputPrecio").tooltip('show');
                     return false;
                 }
                 if ($("#inputPrecioR").val() == "") {
@@ -204,6 +247,44 @@ else {
                 })
             });
 
+            // Proponer precios a partir del precio base con el valor del dolar
+            $("#inputPrecioBase").change(function(){
+                let precioBase = $(this).val();
+                console.log( precioBase );
+                let precioRoot = precioBase * <?= $precioDolar; ?>;
+                console.log(precioRoot);
+                let precioFranq = precioRoot * 1.4;
+                precioFranq = Number( precioFranq.toFixed( 2 ) );
+                let precioCot = precioRoot * 1.6;
+                precioCot = Number( precioCot.toFixed( 2 ) );
+                let precioPub = precioRoot * 2.3;
+                precioPub = Number( precioPub.toFixed( 2 ) );
+                let precioMay = precioRoot * <?= $precioMay; ?>;
+                precioMay = Number( precioMay.toFixed( 2 ) );
+                $("#inputPrecioR").val(precioRoot);
+                $("#inputPrecioFranq").val(precioFranq);
+                $("#inputPrecioCot").val(precioCot);
+                $("#inputPrecioPub").val(precioPub);
+                $("#inputPrecioMay").val( precioMay );
+            })
+
+            //Proponer precios a partir del precio raíz
+            $("#inputPrecioR").change(function(){
+                var precioRoot = $(this).val();
+                console.log(precioRoot);
+                var precioFranq = precioRoot * 1.4;
+                precioFranq = Number(precioFranq.toFixed(2));
+                var precioCot = precioRoot * 1.6;
+                precioCot = Number(precioCot.toFixed(2));
+                var precioPub = precioRoot * 2.3;
+                precioPub = Number(precioPub.toFixed(2));
+                let precioMay = precioRoot * <?= $precioMay; ?>;
+                precioMay = Number( precioMay.toFixed(2) );
+                $("#inputPrecioFranq").val(precioFranq);
+                $("#inputPrecioCot").val(precioCot);
+                $("#inputPrecioPub").val(precioPub);
+                $("#inputPrecioMay").val( precioMay );
+            })
 
         });
     </script>

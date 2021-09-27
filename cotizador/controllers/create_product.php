@@ -5,6 +5,7 @@ include ('../config/variables.php');
 
 $userId      = $_POST['userId'];
 $nombre      = $_POST['inputNombre'];
+$precioBase  = $_POST['inputPrecioDolar'];
 $precioRoot  = $_POST['inputPrecioRoot'];
 $precioFranq = $_POST['inputPrecioFranq'];
 $precioCot   = $_POST['inputPrecioCot'];
@@ -54,10 +55,10 @@ if ($_FILES["inputImg"]["error"] > 0 || $_FILES["InputFile"]["error"] > 0) {
 }
 if ($ban) {
     $sqlInsertProduct = "INSERT INTO productos (nombre, precio_raiz, precio_franquicia, "
-            . "precio_cotizador, precio_publico, precio_mayoreo, cant_minima, img, pdf, descripcion, "
+            . "precio_cotizador, precio_publico, precio_mayoreo, precio_base, cant_minima, img, pdf, descripcion, "
             . "activo, codigo_barras, categoria_id, subcategoria_id, codigo_sat, created, updated, "
             . "created_by_user_id, updated_by_user_id) "
-            . "VALUES ('$nombre', '$precioRoot', '$precioFranq', '$precioCot', '$precioPub', '$precioMay',"
+            . "VALUES ('$nombre', '$precioRoot', '$precioFranq', '$precioCot', '$precioPub', '$precioMay', '$precioBase', "
             . "'$cantMin', '$docName', '$fileName', '$descrip', '1', '$codBar', '$categoria', "
             . "0, '$codSat', '$dateNow', '$dateNow', '$userId', '$userId' ) ";
     if ($con->query($sqlInsertProduct) === TRUE) {

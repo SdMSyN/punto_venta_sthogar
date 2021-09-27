@@ -6,6 +6,7 @@ include ('../config/variables.php');
 $userId = $_POST['userId'];
 $productId = $_POST['productId'];
 $nombre = $_POST['inputNombre'];
+$precioBase = $_POST['inputPrecioBase'];
 $precioR = $_POST['inputPrecioR'];
 $precioF = $_POST['inputPrecioFranq'];
 $precioC = $_POST['inputPrecioCot'];
@@ -52,7 +53,12 @@ if ($_FILES['inputPDF']['name'] != "" && $_FILES['inputImg']['name'] != "") {
         }
     }
     if ($ban) {
-        $sqlUpdateProduct = "UPDATE $tProduct SET nombre='$nombre', precio_raiz='$precioR', precio_franquicia='$precioF', precio_cotizador='$precioC', precio_publico='$precioP', precio_mayoreo = '$precioMay', cant_minima='$cantMin', codigo_barras='$codBar', img='$docName', pdf='$docNamePdf', descripcion='$descrip', categoria_id='$categoria', subcategoria_id='$subCategoria', codigo_sat='$codSat', updated='$dateNow', updated_by_user_id='$userId' WHERE id='$productId' ";
+        $sqlUpdateProduct = "UPDATE $tProduct SET 
+                                nombre='$nombre', precio_raiz='$precioR', precio_franquicia='$precioF', 
+                                precio_cotizador='$precioC', precio_publico='$precioP', precio_mayoreo = '$precioMay', 
+                                precio_base = '$precioBase', cant_minima='$cantMin', codigo_barras='$codBar', img='$docName', 
+                                pdf='$docNamePdf', descripcion='$descrip', categoria_id='$categoria', subcategoria_id='$subCategoria', 
+                                codigo_sat='$codSat', updated='$dateNow', updated_by_user_id='$userId' WHERE id='$productId' ";
         if ($con->query($sqlUpdateProduct) === TRUE) {
             echo "true";
         } else {
@@ -83,7 +89,11 @@ if ($_FILES['inputPDF']['name'] != "" && $_FILES['inputImg']['name'] != "") {
         }
     }
     if ($ban) {
-        $sqlUpdateProduct = "UPDATE $tProduct SET nombre='$nombre', precio_raiz='$precioR', precio_franquicia='$precioF', precio_cotizador='$precioC', precio_publico='$precioP', precio_mayoreo = '$precioMay', cant_minima='$cantMin', codigo_barras='$codBar', img='$docName', descripcion='$descrip', categoria_id='$categoria', subcategoria_id='$subCategoria', codigo_sat='$codSat', updated='$dateNow', updated_by_user_id='$userId' WHERE id='$productId' ";
+        $sqlUpdateProduct = "UPDATE $tProduct SET 
+                                nombre='$nombre', precio_raiz='$precioR', precio_franquicia='$precioF', precio_cotizador='$precioC', 
+                                precio_publico='$precioP', precio_mayoreo = '$precioMay', precio_base = '$precioBase', 
+                                cant_minima='$cantMin', codigo_barras='$codBar', img='$docName', descripcion='$descrip', categoria_id='$categoria', 
+                                subcategoria_id='$subCategoria', codigo_sat='$codSat', updated='$dateNow', updated_by_user_id='$userId' WHERE id='$productId' ";
         if ($con->query($sqlUpdateProduct) === TRUE) {
             echo "true";
         } else {
@@ -114,7 +124,11 @@ if ($_FILES['inputPDF']['name'] != "" && $_FILES['inputImg']['name'] != "") {
         }
     }
     if ($ban) {
-        $sqlUpdateProduct = "UPDATE $tProduct SET nombre='$nombre', precio_raiz='$precioR', precio_franquicia='$precioF', precio_cotizador='$precioC', precio_publico='$precioP', precio_mayoreo = '$precioMay',  cant_minima='$cantMin', codigo_barras='$codBar', pdf='$docName', descripcion='$descrip', categoria_id='$categoria', subcategoria_id='$subCategoria', codigo_sat='$codSat', updated='$dateNow', updated_by_user_id='$userId' WHERE id='$productId' ";
+        $sqlUpdateProduct = "UPDATE $tProduct SET 
+                                nombre='$nombre', precio_raiz='$precioR', precio_franquicia='$precioF', precio_cotizador='$precioC',
+                                precio_publico='$precioP', precio_mayoreo = '$precioMay',  precio_base = '$precioBase', cant_minima='$cantMin', 
+                                codigo_barras='$codBar', pdf='$docName', descripcion='$descrip', categoria_id='$categoria', subcategoria_id='$subCategoria', 
+                                codigo_sat='$codSat', updated='$dateNow', updated_by_user_id='$userId' WHERE id='$productId' ";
         if ($con->query($sqlUpdateProduct) === TRUE) {
             echo "true";
         } else {
@@ -124,7 +138,11 @@ if ($_FILES['inputPDF']['name'] != "" && $_FILES['inputImg']['name'] != "") {
         echo $error;
     }
 } else {
-    $sqlUpdateProduct = "UPDATE $tProduct SET nombre='$nombre', precio_raiz='$precioR', precio_franquicia='$precioF', precio_cotizador='$precioC', precio_publico='$precioP', precio_mayoreo = '$precioMay',  cant_minima='$cantMin', codigo_barras='$codBar', descripcion='$descrip', categoria_id='$categoria', subcategoria_id='$subCategoria', codigo_sat='$codSat', updated='$dateNow', updated_by_user_id='$userId' WHERE id='$productId' ";
+    $sqlUpdateProduct = "UPDATE $tProduct SET 
+                            nombre='$nombre', precio_raiz='$precioR', precio_franquicia='$precioF', precio_cotizador='$precioC', 
+                            precio_publico='$precioP', precio_mayoreo = '$precioMay', precio_base = '$precioBase', cant_minima='$cantMin', 
+                            codigo_barras='$codBar', descripcion='$descrip', categoria_id='$categoria', subcategoria_id='$subCategoria', 
+                            codigo_sat='$codSat', updated='$dateNow', updated_by_user_id='$userId' WHERE id='$productId' ";
     if ($con->query($sqlUpdateProduct) === TRUE) {
         echo "true";
     } else {
