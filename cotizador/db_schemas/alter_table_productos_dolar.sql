@@ -1,0 +1,2 @@
+ALTER TABLE productos ADD precio_base float(8,2) NULL AFTER precio_mayoreo;
+INSERT INTO basectconfig (config, valor, activo, created_at, updated_at) VALUES ( "PRECIO_DOLAR", "20.07", 1, NOW(), NOW() );
