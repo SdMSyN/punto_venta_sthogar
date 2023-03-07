@@ -314,6 +314,7 @@ if ($resGetCategories->num_rows > 0) {
         var idUserPHP = <?= $idUser; ?>;
         var idPerfilPHP = <?= $idPerfil; ?>;
         var idStore = <?= $idStore; ?>;
+        var formClic = true; // Variable global para evitar doble clic
 
         /*$("#precioC").click(function () {
             idUserPHP = <?= $idUser; ?>;
@@ -641,7 +642,11 @@ if ($resGetCategories->num_rows > 0) {
             var id = $(this).attr('id');
             if (id == "cotizar")
                 $('form').attr('target', '_blank');
-            $('form').submit();
+            // Función para evitar el doble clic en el envió de formularios
+            if( formClic ){
+                formClic = false;
+                $('form').submit();
+            }
         })
 
 
