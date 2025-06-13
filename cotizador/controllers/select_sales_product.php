@@ -15,7 +15,7 @@
         INNER JOIN almacenes ON almacenes.producto_id = productos.id
         WHERE almacenes.tienda_id = '$store_id' 
             AND productos.id = '$product_id' 
-            AND productos.activo = 1
+            AND productos.activo = 1 ";
     //echo $sqlGetProduct;
     $resGetProduct = $con->query($sqlGetProduct);
     $optProduct='';
