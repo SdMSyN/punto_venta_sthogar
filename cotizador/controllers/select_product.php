@@ -28,7 +28,8 @@
                 INNER JOIN estatus ON productos.activo=estatus.id  ";
         
         // Ordenar por
-	    $est = ( isset( $_POST['estatus'] ) ) ? $_POST['estatus'] - 1 : 0;
+	    // $est = ( isset( $_POST['estatus'] ) ) ? $_POST['estatus'] - 1 : 0;
+	    $est = ( isset( $_POST['estatus'] ) ) ? $_POST['estatus'] : 0;
         if($est >= 0) $sqlGetProducts .= " WHERE productos.activo='$est' ";
         
         //Ordenar ASC y DESC
