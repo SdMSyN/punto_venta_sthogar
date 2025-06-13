@@ -5,7 +5,17 @@
     $store_id=$_POST['idStore'];
     $product_id=$_POST['idProduct'];
     
-    $sqlGetProduct="SELECT id, nombre, precio, (SELECT cantidad FROM $tStock WHERE producto_id='$product_id' AND tienda_id='$store_id' LIMIT 1) as cantidad FROM $tProduct WHERE id='$product_id' ";
+    // $sqlGetProduct="SELECT id, nombre, precio, (SELECT cantidad FROM $tStock WHERE producto_id='$product_id' AND tienda_id='$store_id' LIMIT 1) as cantidad FROM $tProduct WHERE id='$product_id' ";
+    $sqlGetProduct = "SELECT 
+        productos.id,
+        productos.nombre,
+        productos.precio,
+        almacenes.cantidad
+        FROM productos
+        INNER JOIN almacenes ON almacenes.producto_id = productos.id
+        WHERE almacenes.tienda_id = '$store_id' 
+            AND productos.id = '$product_id' 
+            AND productos.activo = 1
     //echo $sqlGetProduct;
     $resGetProduct = $con->query($sqlGetProduct);
     $optProduct='';
