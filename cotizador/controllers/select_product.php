@@ -7,6 +7,7 @@
     $productos = array();
     
     if($_GET['action'] == 'listar'){
+        
         //$sqlGetProducts = "SELECT id, nombre, (SELECT nombre FROM $tCategory WHERE id=$tProduct.categoria_id) as categoria, (SELECT nombre FROM $tSubCategory WHERE id=$tProduct.subcategoria_id) as subcategoria, precio, img, (SELECT nombre FROM $tEst WHERE id=$tProduct.activo) as activoN, activo  FROM $tProduct  ";
         $sqlGetProducts = "SELECT productos.id as id, 
                     productos.nombre as nombre, 
@@ -25,20 +26,20 @@
                     productos.codigo_sat AS sat 
                 FROM productos 
                 INNER JOIN categorias ON productos.categoria_id=categorias.id 
-                INNER JOIN estatus ON productos.activo=estatus.id  ";
+                INNER JOIN estatus ON productos.activo=(estatus.id-1)  ";
         
         // Ordenar por
-	    // $est = ( isset( $_POST['estatus'] ) ) ? $_POST['estatus'] - 1 : 0;
-	    $est = ( isset( $_POST['estatus'] ) ) ? $_POST['estatus'] : 0;
-        if($est >= 0) $sqlGetProducts .= " WHERE productos.activo='$est' ";
+	    $est = ( isset( $_POST['estatus'] ) ) ? $_POST['estatus'] - 1 : -1;
+	    // $est = ( isset( $_POST['estatus'] ) ) ? $_POST['estatus'] : 0;
+        if($est > -1) $sqlGetProducts .= " WHERE productos.activo=".$est." ";
         
         //Ordenar ASC y DESC
-	$vorder = (isset($_POST['orderby'])) ? $_POST['orderby'] : "";
-	if($vorder != ''){
-        $sqlGetProducts .= " ORDER BY ".$vorder;
-	} else{
-        $sqlGetProducts .= " ORDER BY categoryId, nombre ";
-    }
+    	$vorder = (isset($_POST['orderby'])) ? $_POST['orderby'] : "";
+    	if($vorder != ''){
+            $sqlGetProducts .= " ORDER BY ".$vorder;
+    	} else{
+            $sqlGetProducts .= " ORDER BY categoryId, nombre ";
+        }
         
         //Ejecutamos query
         $resGetProducts = $con->query($sqlGetProducts);
@@ -68,8 +69,8 @@
                     'id'          => $rowGetProducts['id'],
                     'img'         => $rowGetProducts['img'],
                     'pdf'         => $rowGetProducts['pdf'],
-                    'nameProd'    => $rowGetProducts['nombre'],
-                    'nameCat'     => $rowGetProducts['categoria'],
+                    'nameProd'    => utf8_encode( $rowGetProducts['nombre'] ),
+                    'nameCat'     => utf8_encode( $rowGetProducts['categoria'] ),
                     'precioBase'  => $rowGetProducts['precioBase'],
                     'precioRoot'  => $rowGetProducts['precioRoot'],
                     'precioFranq' => $rowGetProducts['precioFranq'],
@@ -86,11 +87,12 @@
             $ban = false;
             $msg = "Error: no existen productos." . $con->error;
         }
-        // echo $datos;
+        
+        // print_r( $productos );
         if( $ban ){
-            echo json_encode( array( "error" => 0, "msg" => $msg, "dataRes" => $productos ) );
+            echo json_encode( array( "error" => 0, "msg" => $msg, "dataRes" => $productos, "sql" => $sqlGetProducts ) );
         } else{
-            echo json_encode( array( "error" => 1, "msg" => $msg ) );
+            echo json_encode( array( "error" => 1, "msg" => $msg, "sql" => $sqlGetProducts ) );
         }
     }
     
