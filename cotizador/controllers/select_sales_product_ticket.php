@@ -18,7 +18,8 @@
              . "AND ($tProduct.nombre='$product_id' OR $tProduct.codigo_barras='$product_id') ";*/
 		$sqlGetProduct="SELECT $tProduct.id as id, $tProduct.nombre as nombre, $tProduct.precio_publico as precio "
         . "FROM $tProduct "
-        . "WHERE ($tProduct.nombre='$product_id' OR $tProduct.codigo_barras='$product_id') ";
+        . "WHERE ($tProduct.nombre='$product_id' OR $tProduct.codigo_barras='$product_id') "
+	. "	AND $tProduct.activo = 1 ";
     //echo $sqlGetProduct;
     $resGetProduct = $con->query($sqlGetProduct);
     $optProduct='';
