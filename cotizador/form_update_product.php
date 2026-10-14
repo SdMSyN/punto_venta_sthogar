@@ -98,7 +98,7 @@ else {
                 </div>
                 <div class="form-group">
                     <label>Código de Barras: </label>
-                    <input type="number" id="inputCB" name="inputCB" class="form-control" value="<?= $rowGetProduct['codigo_barras']; ?>">
+                    <input type="text" id="inputCB" name="inputCB" class="form-control" value="<?= $rowGetProduct['codigo_barras']; ?>">
                 </div>
                 <div class="form-group">
                     <label>Código SAT: </label>

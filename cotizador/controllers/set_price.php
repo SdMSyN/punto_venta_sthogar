@@ -66,14 +66,14 @@ class PDF extends FPDF {
         $this->SetFont('Arial', '', 8);
         $this->Cell(0, 3, utf8_decode('Soluciones Tecnológicas para el Hogar - www.st-hogar.com'), 0, 1, 'C');
         //$this->Cell(180, 3, utf8_decode('Siempre a tu lado con las mejores soluciones tecnológicas.'), 0, 1, 'R');
-        $this->Cell(100, 3, utf8_decode('Sucursal: Chiautempan'), 0, 0, 'L');
-        $this->Cell(10, 3, utf8_decode('Sucursal: Apizaco'), 0, 1, 'L');
-        $this->Cell(100, 3, utf8_decode('Correo: contacto@st-hogar.com'), 0, 0, 'L');
-        $this->Cell(10, 3, utf8_decode('Correo: contactoapizaco@st-hogar.com'), 0, 1, 'L');
-        $this->Cell(100, 3, utf8_decode('Dirección: C. Miguel Hernández No. 403 - Local 2, Tepetlapa, Tlax.'), 0, 0, 'L');
-        $this->Cell(10, 3, utf8_decode('Dirección: Blvrd. Francisco I. Madero No. 12, Apizaco, Tlax.'), 0, 1, 'L');
-        $this->Cell(100, 3, utf8_decode('Cel: 246-116-3637 | Cel: 246-177-6355 | Oficina ST-Store: 246-464-8317'), 0, 0, 'L');
-        $this->Cell(10, 3, utf8_decode('Cel: 246-116-3637 '), 0, 1, 'L');
+        $this->Cell(100, 3, utf8_decode('Sucursal: Chiautempan'), 0, 1, 'L');
+        // $this->Cell(10, 3, utf8_decode('Sucursal: Apizaco'), 0, 1, 'L');
+        $this->Cell(100, 3, utf8_decode('Correo: contacto@st-hogar.com'), 0, 1, 'L');
+        // $this->Cell(10, 3, utf8_decode('Correo: contactoapizaco@st-hogar.com'), 0, 1, 'L');
+        $this->Cell(100, 3, utf8_decode('Dirección: C. Miguel Hernández No. 403 - Local 2, Tepetlapa, Tlax.'), 0, 1, 'L');
+        // $this->Cell(10, 3, utf8_decode('Dirección: Blvrd. Francisco I. Madero No. 12, Apizaco, Tlax.'), 0, 1, 'L');
+        $this->Cell(100, 3, utf8_decode('Cel: 246-116-3637 | Cel: 246-177-6355 | Oficina ST-Store: 246-464-8317'), 0, 1, 'L');
+        // $this->Cell(10, 3, utf8_decode('Cel: 246-116-3637 '), 0, 1, 'L');
         $this->Cell(0, 3, 'Pag. ' . $this->PageNo() . '/{nb}', 0, 1, 'R');
     }
 
@@ -81,26 +81,14 @@ class PDF extends FPDF {
 
 //Fin class PDF
 // Creación del objeto de la clase heredada
-echo "inicio";
+
 $pdf = new PDF('P', 'mm', 'A4');
 #Establecemos los márgenes izquierda, arriba y derecha: 
 //$pdf->SetMargins(30, 25, 30); 
 #Establecemos el margen inferior: 
 $pdf->SetAutoPageBreak(true, 45);
-echo "setAutopage";
-echo '<br>';
-echo utf8_decode($inputName);
-echo '<br>';
-echo utf8_decode($dateNow);
-echo '<br>';
-echo utf8_decode($inputDir);
-echo '<br>';
-echo utf8_decode($inputTel);
-echo '<br>';
 $pdf->AliasNbPages();
-echo "Alias";
 $pdf->AddPage();
-echo "addpage";
 $pdf->SetFont('Times', 'B', 12);
 $pdf->Cell(20, 10, utf8_decode('Cliente: '), 0, 0, 'L');
 $pdf->SetFont('Times', '', 12);
@@ -118,7 +106,7 @@ $pdf->SetFont('Times', 'B', 12);
 $pdf->Cell(20, 10, utf8_decode('Teléfono:  '), 0, 0, 'R');
 $pdf->SetFont('Times', '', 12);
 $pdf->Cell(20, 10, utf8_decode($inputTel), 0, 1, 'R');
-echo "addpage";
+
 //$pdf->SetFillColor(210, 234, 241); //fondo azul
 //$pdf->SetTextColor(0, 0, 0); //letra color negro
 $pdf->SetFillColor(255, 255, 255); //fondo azul
@@ -210,31 +198,29 @@ if ($con->query($sqlInsertPricer) === TRUE) {
 //$pdf->Output("F", $archivo);
 //$pdf->Output();
 
-// if ($ban) {
-//     $namePdf = 'cotizacion_' . $dateNow . '-' . $timeNow . '.pdf';
-//     $contenido = $pdf->Output($namePdf, 'S');
-//     $bodyMsg = '<h1>Cotización de ' . $inputName . '</h1>';
-//     $bodyMsg .= '<p>Envío de cotización de: <b>' . $inputName . '</b></<p>';
-//     $bodyMsg .= '<p>Fecha: ' . $dateNow . ' - ' . $timeNow . '</p>';
-
-//     $mail = new PHPMailer();
-//     $mail->setFrom('cotizaciones@st-hogar.com', 'ST-Hogar');
-//     $mail->addReplyTo('cotizaciones@st-hogar.com', 'ST-Hogar');
-//     $mail->addAddress('cotizaciones@st-hogar.com', 'Cotizaciones');
-//     $mail->Subject = 'Cotización';
-//     $mail->msgHTML($bodyMsg);
-//     $mail->AddStringAttachment($contenido, $namePdf);
-//     $mail->IsHTML(true);
-//     $mail->CharSet = 'UTF-8';
-
-//     $pdf->Output();
-//     //send the message, check for errors
-//     if (!$mail->send()) {
-//         echo "Mailer Error: " . $mail->ErrorInfo;
-//     } else {
-//         echo "Message sent!";
-//     }
-// } else {
-//     echo $msgErr;
-// }
+if ($ban) {
+    $namePdf = 'cotizacion_' . $dateNow . '-' . $timeNow . '.pdf';
+    $contenido = $pdf->Output($namePdf, 'S');
+    $bodyMsg = '<h1>Cotización de ' . $inputName . '</h1>';
+    $bodyMsg .= '<p>Envío de cotización de: <b>' . $inputName . '</b></<p>';
+    $bodyMsg .= '<p>Fecha: ' . $dateNow . ' - ' . $timeNow . '</p>';
+    $mail = new PHPMailer();
+    $mail->setFrom('cotizaciones@st-hogar.com', 'ST-Hogar');
+    $mail->addReplyTo('cotizaciones@st-hogar.com', 'ST-Hogar');
+    $mail->addAddress('cotizaciones@st-hogar.com', 'Cotizaciones');
+    $mail->Subject = 'Cotización';
+    $mail->msgHTML($bodyMsg);
+    $mail->AddStringAttachment($contenido, $namePdf);
+    $mail->IsHTML(true);
+    $mail->CharSet = 'UTF-8';
+    $pdf->Output();
+    //send the message, check for errors
+    if (!$mail->send()) {
+        echo "Mailer Error: " . $mail->ErrorInfo;
+    } else {
+        echo "Message sent!";
+    }
+} else {
+    echo $msgErr;
+}
 ?>

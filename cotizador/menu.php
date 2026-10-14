@@ -55,6 +55,7 @@
         <li><a href="mayoreo.php">Mayoreo</a></li>
         <li><a href="form_select_product_missing.php">Faltantes</a></li>
         <li><a href="form_select_user.php">Usuarios</a></li>
+        <li><a href="form_select_worker.php">Trabajadores</a></li>
         <li><a href="form_select_store.php">Tiendas</a></li>
         <li><a href="form_select_category.php">Categorías</a></li>
         <!-- <li><a href="form_select_subcategory.php">Subcategorías</a></li> -->

@@ -106,7 +106,7 @@ else {
                             </div>
                             <div class="form-group">
                                 <label>Código de barras</label>
-                                <input type="number" id="inputCB" name="inputCB" class="form-control">
+                                <input type="text" id="inputCB" name="inputCB" class="form-control">
                             </div>
                             <div class="form-group">
                                 <label>Código SAT</label>
@@ -154,8 +154,8 @@ else {
             <div class="form-group">
                 <select id="estatus" name="estatus" class="form-control">
                     <option value="0"></option>
-                    <option value="1">Desactivo</option>
-                    <option value="2">Activo</option>
+                    <option value="2">Desactivo</option>
+                    <option value="1">Activo</option>
                 </select>
             </div>
             <button type="button" id="btnfiltrar" class="btn btn-success">Filtrar</button>
@@ -199,8 +199,8 @@ else {
                     data: $("#frm_filtro").serialize() + ordenar,
                     url: "controllers/select_product.php?action=listar",
                     success: function (msg) {
+                        // console.log( msg );
                         let data = jQuery.parseJSON(msg);
-                        console.log( data );
                         if(data.error == 0){
                             $("#data tbody").html("");
                             $.each(data.dataRes, function(i, item){

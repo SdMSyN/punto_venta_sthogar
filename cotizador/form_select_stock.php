@@ -87,6 +87,7 @@ else {
                 <td>Categoría</td>
                 <td>Cantidad</td>
                 <td>Sumar/Restar</td>
+                <td>Guardar</td>
               </tr>
             </thead>
             <tbody id="tableStockStore">
@@ -129,6 +130,47 @@ else {
 
   <script type="text/javascript">
     $(document).ready(function () {
+        $("#formSave").on('change', '#inputAlm', function(event){
+                var idInput = $(this).data("id");
+                var cantInput = $(this).val();
+            })
+            
+            $("#formSave").on('click', '.linkSave', function(e){
+                var idInput = $(this).parent().parent().find("#inputAlm").data("id");
+                var cantInput = $(this).parent().parent().find("#inputAlm").val();
+                console.log(idInput+"--"+cantInput+"\n");
+                var link = 'controllers/update_cant_product_stock.php?idStock='+idInput+'&cant='+cantInput;
+                var selectStore = $('#tienda').val();
+                var timeM = 2000;
+                $('body').removeClass('loaded');
+                $.ajax({
+                    type: "POST",
+                    url: link,
+                    success: function (msg) {
+                        if (msg == "true") {
+                            $('.msg').css({color: "#009900"});
+                            $('.msg').html("Se modifico el almacen con éxito");
+                            pintarTabla2(selectStore);
+                            setTimeout(function () {
+                                $('.msg').empty();
+                            }, timeM);
+                        } else {
+                            $('.msg').css({color: "#FF0000"});
+                            $('.msg').html(msg);
+                            $('body').addClass('loaded');
+                            alert("error al intentar modificar el almacen");
+                            setTimeout(function () {
+                                $('.msg').empty();
+                            }, timeM);
+                        }
+                    },
+                    error: function () {
+                        alert("Error al modificar cantidad de producto en almacen.");
+                    }
+                });
+                event.preventDefault();
+            })
+        
       $('#inputStore').focus();
       $('#inputStore').change(function () {
         var selectStore = $('#inputStore').val();
@@ -152,7 +194,7 @@ else {
           $('.buttonProduct').empty();
         } else {
           $('.buttonProduct').html('<button type="button" class="btn btn-primary" data-whatever="' + selectStore + '" data-toggle="modal" data-target="#myModal" id="buttonAddProduct">Añadir producto</button>');
-          $('#saveButton').html('<button type="submit" class="btn btn-primary" >Guardar</button>');
+          //$('#saveButton').html('<button type="submit" class="btn btn-primary" >Guardar</button>');
         }
 
         $.ajax({

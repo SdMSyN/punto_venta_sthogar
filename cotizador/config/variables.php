@@ -6,4 +6,5 @@
         $rutaImgProd="uploads/";
         $rutaImgCat="uploads/categories/";
         $rutaImgSubCat="uploads/subcategories/";
+        $rutaImgWorkers="uploads/workers/";
 ?>

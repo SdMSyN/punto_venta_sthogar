@@ -144,7 +144,8 @@
                 $nameClient = $rowGetClient['name'];
                 $rfcClient = $rowGetClient['rfc'];
             } else {
-                $idClient2 = "NULL";
+                // $idClient2 = "NULL";
+                $idClient2 = 0;
             }
 
             $cad = '';

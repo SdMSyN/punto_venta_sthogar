@@ -38,7 +38,8 @@
             $optStockStore.='<td>'.$rowGetStockStore['productName'].'</td>';
             $optStockStore.='<td>'.$rowGetStockStore['categoryName'].'</td>';
             $optStockStore.='<td>'.$rowGetStockStore['stockCant'].'</td>';
-            $optStockStore.='<td class="col-sm-2"><input type="number" name="inputAlm[]" id="inputAlm[]" value="0" class="form-control"></td>';
+            $optStockStore.='<td class="col-sm-2"><input type="number" name="inputAlm[]" id="inputAlm" value="0" class="form-control" data-id="'.$rowGetStockStore['stockId'].'"></td>';
+            $optStockStore .= '<td><a href="#" class="btn btn-primary linkSave">Guardar</a></td>';
             $optStockStore.='<input type="hidden" value="'.$rowGetStockStore['stockStore'].'" name="tienda" id="tienda" ';
             $optStockStore.='</tr>';
         }
